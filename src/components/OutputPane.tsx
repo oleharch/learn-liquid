@@ -52,7 +52,7 @@ export function OutputPane({ result, view = 'text', full, extra }: { result: Liv
         <pre className={`runner__pre${ws ? ' runner__pre--ws' : ''}`}>
           {result.output === ''
             // Поки рушій рахує, «порожній вивід» — неправда: ще нічого не рахували.
-            ? <span className="runner__empty">{result.pending ? '' : '— порожній вивід —'}</span>
+            ? <span className="runner__empty">{result.pending ? '' : '— порожній output —'}</span>
             : ws ? visible(result.output) : result.output}
         </pre>
       )}

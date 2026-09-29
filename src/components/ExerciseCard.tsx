@@ -69,7 +69,7 @@ export function ExerciseCard({ exercise: ex, index }: { exercise: Exercise; inde
           </ul>
           {failedOutput && (
             <div className="verdict__diff">
-              <div><span>Твій вивід</span><pre>{failedOutput.got || '— порожньо —'}</pre></div>
+              <div><span>Твій output</span><pre>{failedOutput.got || '— порожньо —'}</pre></div>
               <div><span>Очікується</span><pre>{failedOutput.want || '— порожньо —'}</pre></div>
             </div>
           )}

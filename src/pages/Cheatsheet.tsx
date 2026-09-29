@@ -6,14 +6,14 @@ import { InlineMd } from '@/components/InlineMd'
 import { StaticCode } from '@/components/StaticCode'
 import { renderLiquid } from '@/engine/liquid'
 
-const CATS: Record<FilterCategory, string> = { string: 'Рядки', math: 'Числа', array: 'Масиви', date: 'Дати', other: 'Інше' }
+const CATS: Record<FilterCategory, string> = { string: 'String', math: 'Числа', array: 'Масиви', date: 'Дати', other: 'Інше' }
 
 const SYNTAX: { title: string; code: string }[] = [
-  { title: 'Вивід, тег, фільтр', code: `{{ product.title | upcase }}\n{% if product.available %}…{% endif %}\n{%- assign x = 1 -%}   {%- # дефіс зʼїдає пробіли з цього боку -%}` },
+  { title: 'Output, тег, фільтр', code: `{{ product.title | upcase }}\n{% if product.available %}…{% endif %}\n{%- assign x = 1 -%}   {%- # дефіс зʼїдає пробіли з цього боку -%}` },
   { title: 'Умови', code: `{% if a == 1 and b or c %}   {%- # and/or — СПРАВА НАЛІВО, дужок немає -%}\n{% elsif a contains 'x' %}\n{% else %}\n{% endif %}\n\n{% unless product.available %}…{% endunless %}\n\n{% case product.type %}\n  {% when 'Маска', 'Шампунь' %}…\n  {% else %}…\n{% endcase %}` },
   { title: 'Цикли', code: `{% for p in collection.products limit: 4 offset: 2 reversed %}\n  {{ forloop.index }} {{ forloop.first }} {{ forloop.last }} {{ forloop.length }}\n  {% if p.hidden %}{% continue %}{% endif %}\n  {% break %}\n{% else %}\n  колекція порожня\n{% endfor %}\n\n{% for i in (1..5) %}{{ i }}{% endfor %}\n{% cycle 'odd', 'even' %}\n{% tablerow p in products cols: 3 %}…{% endtablerow %}` },
   { title: 'Змінні', code: `{% assign title = product.title | downcase %}\n{% capture label %}{{ title }} — {{ price }}{% endcapture %}   {%- # завжди рядок -%}\n{% increment n %} {% decrement n %}   {%- # друкують значення; окремий простір імен -%}` },
-  { title: 'Шаблон', code: `{% render 'card', product: p, show_vendor: true %}   {%- # ізольована область видимості -%}\n{% render 'card' for products as p %}\n{% comment %}…{% endcomment %}   {% # інлайн-коментар %}\n{% raw %}{{ не виконується }}{% endraw %}\n{% liquid\n  assign x = 5\n  echo x | plus: 1\n%}` },
+  { title: 'Шаблон', code: `{% render 'card', product: p, show_vendor: true %}   {%- # ізольований scope -%}\n{% render 'card' for products as p %}\n{% comment %}…{% endcomment %}   {% # інлайн-коментар %}\n{% raw %}{{ не виконується }}{% endraw %}\n{% liquid\n  assign x = 5\n  echo x | plus: 1\n%}` },
   { title: 'Truthy / falsy і порожнеча', code: `falsy: лише nil і false\ntruthy: усе інше — зокрема "", 0, порожній масив\n\n{% if title != blank %}   {%- # nil, "", "   ", [] -%}\n{% if products == empty %} {%- # "", [] -%}\n{% if products.size > 0 %}` },
 ]
 

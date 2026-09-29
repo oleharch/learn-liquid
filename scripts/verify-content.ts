@@ -14,7 +14,7 @@ import { checkExercise, quizAnswerMatches } from '../src/engine/check'
 const errors: string[] = []
 const warns: string[] = []
 const seen = new Map<string, string>()
-const stats = { pages: 0, lessons: 0, qa: 0, examples: 0, exercises: 0, quiz: 0 }
+const stats = { pages: 0, lessons: 0, qa: 0, followUps: 0, examples: 0, exercises: 0, quiz: 0 }
 
 const fail = (where: string, msg: string) => errors.push(`✗ ${where}: ${msg}`)
 const unique = (id: string, where: string) => {
@@ -108,7 +108,16 @@ async function checkQA(qa: InterviewQA) {
   const where = `interview/${qa.id}`
   unique(qa.id, where)
   if (!qa.short || qa.short.length < 60) fail(where, 'short закороткий: це має бути повна усна відповідь на 20–40 секунд')
+  collectLinks(where, qa.short)
   await checkBlocks(where, qa.blocks)
+  for (const [i, f] of (qa.followUps ?? []).entries()) {
+    const at = `${where} › followUp ${i + 1}`
+    stats.followUps++
+    if (typeof f === 'string') { fail(at, 'старий формат (рядок) — потрібен обʼєкт { q, a, to? }'); continue }
+    if (!f.q || !f.a || f.a.length < 40) fail(at, 'followUp потребує q і a (відповідь уголос, від 40 символів)')
+    collectLinks(at, f.a)
+    if (f.to) internalLinks.push({ where: at, href: f.to })
+  }
 }
 
 const isPage = (x: any): x is DocPage => x && typeof x.slug === 'string' && Array.isArray(x.blocks) && 'section' in x
@@ -135,6 +144,8 @@ if (!partial) {
   const known = new Set<string>([...seen.keys()].map((k) => `/${k.replace(/^course\//, 'learn/')}`))
   for (const extra of ['/', '/learn', '/docs', '/playground', '/interview', '/cheatsheet', '/shopify', '/shopify/reference', '/about']) known.add(extra)
   for (const l of internalLinks) {
+    const qa = /^\/interview\?q=([\w-]+)$/.exec(l.href)
+    if (qa) { if (!seen.has(qa[1])) fail(l.where, `посилання на неіснуюче питання: ${l.href}`); continue }
     const href = l.href.replace(/\/$/, '') || '/'
     if (!known.has(href)) fail(l.where, `посилання на неіснуючу сторінку: ${l.href}`)
   }
@@ -142,6 +153,6 @@ if (!partial) {
 
 for (const w of warns) console.log(w)
 for (const e of errors) console.log(e)
-console.log(`\nсторінок ${stats.pages} · уроків ${stats.lessons} · питань ${stats.qa} · прикладів ${stats.examples} · завдань ${stats.exercises} · тестів ${stats.quiz}`)
+console.log(`\nсторінок ${stats.pages} · уроків ${stats.lessons} · питань ${stats.qa} (+${stats.followUps} уточнень) · прикладів ${stats.examples} · завдань ${stats.exercises} · тестів ${stats.quiz}`)
 console.log(errors.length ? `\n${errors.length} помилок` : '\nУсе зелене ✓')
 process.exit(errors.length ? 1 : 0)

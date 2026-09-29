@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, CircleCheck, Clock } from 'lucide-react'
-import { findLesson, interview, lessonPlan, lessons, modules } from '@/content'
+import { findLesson, interview, lessonPlan, lessons, modules, resolveRef, SECTION_LABELS } from '@/content'
 import { Blocks } from '@/components/Blocks'
 import { ExerciseCard } from '@/components/ExerciseCard'
 import { InlineMd } from '@/components/InlineMd'
@@ -96,10 +96,25 @@ export function LessonPage() {
       )}
 
       <footer className="lessonfoot">
-        {(lesson.docs?.length || related > 0) && (
-          <div className="lessonfoot__links">
-            {lesson.docs?.map((d) => <Link key={d} to={`/docs/${d}`} className="chip">{d.split('/')[1]}</Link>)}
-            {related > 0 && <Link to={`/interview?topics=${lesson.topics!.join(',')}`} className="chip chip--accent">{related} питань співбесіди з цієї теми</Link>}
+        {!!lesson.docs?.length && (
+          <div className="lessonfoot__group">
+            <p className="lessonfoot__label">Довідник до уроку</p>
+            <div className="lessonfoot__links">
+              {lesson.docs.map((ref) => {
+                const d = resolveRef(ref)
+                return d
+                  ? <Link key={ref} to={`/docs/${ref}`} className={`chip chip--titled${d.section === 'filters' ? ' is-mono' : ''}`}><span className="chip__k">{SECTION_LABELS[d.section]}</span> {d.title}</Link>
+                  : <Link key={ref} to={`/docs/${ref}`} className="chip">{ref.split('/')[1]}</Link>
+              })}
+            </div>
+          </div>
+        )}
+        {related > 0 && (
+          <div className="lessonfoot__group">
+            <p className="lessonfoot__label">Співбесіда</p>
+            <div className="lessonfoot__links">
+              <Link to={`/interview?topics=${lesson.topics!.join(',')}`} className="chip chip--accent">{related} питань з цієї теми</Link>
+            </div>
           </div>
         )}
         <div className="pager">

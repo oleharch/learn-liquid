@@ -77,7 +77,7 @@ export function ShopifyReference() {
                     <code className={`ref__name ref__name--${kind}`}>{it.name}</code>
                     <span className="ref__sum">{uk ?? it.summary}</span>
                     <span className="ref__flags">
-                      {it.deprecated && <span className="flag flag--dep">застаріле</span>}
+                      {it.deprecated && <span className="flag flag--dep">deprecated</span>}
                       {kind !== 'objects' && (emulated.has(it.name) || ownPages.has(it.name)) && <span className="flag flag--live">працює в пісочниці</span>}
                     </span>
                   </button>

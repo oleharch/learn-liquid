@@ -15,7 +15,7 @@ const PRIMARY = [
   { to: '/cheatsheet', label: 'Шпаргалка', icon: TableProperties },
 ]
 
-const CATEGORY_LABELS: Record<FilterCategory, string> = { string: 'Рядки', math: 'Числа', array: 'Масиви', date: 'Дати', other: 'Інше' }
+const CATEGORY_LABELS: Record<FilterCategory, string> = { string: 'String', math: 'Числа', array: 'Масиви', date: 'Дати', other: 'Інше' }
 
 function CourseNav() {
   const p = useProgress()
@@ -128,7 +128,7 @@ export function Shell() {
           {context === 'shopify' && <DocsNav sections={['shopify']} />}
         </div>
         <p className="side__legend" aria-label="Кольори в коді">
-          <span className="lg lg--out">{'{{ вивід }}'}</span>
+          <span className="lg lg--out">{'{{ output }}'}</span>
           <span className="lg lg--tag">{'{% тег %}'}</span>
           <span className="lg lg--filter">| фільтр</span>
         </p>

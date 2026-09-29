@@ -7,7 +7,7 @@ import { decodeShare, encodeShare } from '@/lib/share'
 
 const STARTERS: { label: string; example: Example }[] = [
   {
-    label: 'Картка товару',
+    label: 'Картка product',
     example: {
       preset: 'product', view: 'html',
       template: `{% assign variant = product.selected_or_first_available_variant %}

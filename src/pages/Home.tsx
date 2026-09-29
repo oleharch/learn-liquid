@@ -25,7 +25,7 @@ export function Home() {
     <div className="home">
       <section className="hero">
         <p className="eyebrow">Тренажер Liquid для Shopify-розробника</p>
-        <h1 className="hero__title">Зміни шаблон —<br />вивід зміниться одразу</h1>
+        <h1 className="hero__title">Зміни шаблон —<br />output зміниться одразу</h1>
         <p className="hero__lead">
           Це робочий Liquid, а не картинка. Прибери <code className="ic">where</code>, постав <code className="ic">limit: 1</code>,
           увімкни «Кроки фільтрів» — і подивись, як значення йде крізь ланцюжок.

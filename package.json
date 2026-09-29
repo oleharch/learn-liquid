@@ -9,6 +9,7 @@
     "preview": "vite preview --port 7401",
     "typecheck": "tsc -b --noEmit",
     "verify": "tsx scripts/verify-content.ts",
+    "lint:terms": "tsx scripts/lint-terms.ts",
     "ref:build": "tsx scripts/build-shopify-ref.ts"
   },
   "packageManager": "pnpm@10.26.1",

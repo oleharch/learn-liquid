@@ -26,7 +26,7 @@ export const shopifyThemePages: DocPage[] = [
     blocks: [
       {
         type: 'p',
-        text: 'У темі Shopify немає роутера, контролерів чи конфіга збірки. Є **вісім тек із наперед відомими іменами**, і платформа сама знає, що робити з файлом, дивлячись на те, де він лежить. Поклав `product.json` у `templates/` — це шаблон сторінки товару. Поклав `price.liquid` у `snippets/` — це фрагмент, який можна викликати через `render`. Жодної реєстрації.',
+        text: 'У темі Shopify немає роутера, контролерів чи конфіга збірки. Є **вісім тек із наперед відомими іменами**, і платформа сама знає, що робити з файлом, дивлячись на те, де він лежить. Поклав `product.json` у `templates/` — це template сторінки product. Поклав `price.liquid` у `snippets/` — це фрагмент, який можна викликати через `render`. Жодної реєстрації.',
       },
       {
         type: 'code',
@@ -69,14 +69,14 @@ export const shopifyThemePages: DocPage[] = [
         type: 'table',
         head: ['Тека', 'Що лежить', 'Хто це використовує'],
         rows: [
-          ['`layout/`', 'Рамка сторінки: `<html>`, `<head>`, хедер, футер. Мінімум — `theme.liquid`.', 'Shopify загортає в неї вивід кожного шаблона. Деталі — [лейаути й шаблони](/docs/shopify/layouts-and-templates).'],
-          ['`templates/`', 'По файлу на тип сторінки: `product`, `collection`, `cart`, `page`, `index`… JSON або Liquid.', 'Shopify обирає шаблон за типом ресурсу з URL. Див. [JSON-шаблони](/docs/shopify/json-templates).'],
-          ['`sections/`', 'Секції (`.liquid` зі схемою) і групи секцій (`.json`).', 'JSON-шаблони, групи секцій, тег `section`. Див. [секції та схема](/docs/shopify/sections-and-schema).'],
+          ['`layout/`', 'Рамка сторінки: `<html>`, `<head>`, хедер, футер. Мінімум — `theme.liquid`.', 'Shopify загортає в неї output кожного template. Деталі — [layouts і templates](/docs/shopify/layouts-and-templates).'],
+          ['`templates/`', 'По файлу на тип сторінки: `product`, `collection`, `cart`, `page`, `index`… JSON або Liquid.', 'Shopify обирає template за типом ресурсу з URL. Див. [JSON templates](/docs/shopify/json-templates).'],
+          ['`sections/`', 'Секції (`.liquid` зі схемою) і section groups (`.json`).', 'JSON templates, section groups, тег `section`. Див. [секції та схема](/docs/shopify/sections-and-schema).'],
           ['`blocks/`', 'Theme blocks — блоки як окремі файли зі своєю схемою.', 'Секції через `content_for`. Див. [блоки](/docs/shopify/blocks).'],
           ['`snippets/`', 'Фрагменти розмітки без схеми й без налаштувань.', 'Будь-який Liquid-файл через `render`. Див. [сніпети](/docs/shopify/snippets-render).'],
-          ['`assets/`', 'Статика: CSS, JS, SVG, шрифти, зображення теми.', 'Фільтр `asset_url` віддає адресу на CDN. Див. [асети](/docs/shopify/assets).'],
-          ['`config/`', '`settings_schema.json` (опис налаштувань теми) і `settings_data.json` (їхні значення).', 'Обʼєкт `settings`. Див. [налаштування теми](/docs/shopify/theme-settings).'],
-          ['`locales/`', 'Переклади: тексти вітрини й тексти редактора.', 'Фільтр `t` і префікс `t:` у схемах. Див. [локалі](/docs/shopify/locales).'],
+          ['`assets/`', 'Статика: CSS, JS, SVG, шрифти, зображення теми.', 'Фільтр `asset_url` віддає адресу на CDN. Див. [assets](/docs/shopify/assets).'],
+          ['`config/`', '`settings_schema.json` (опис theme settings) і `settings_data.json` (їхні значення).', 'Обʼєкт `settings`. Див. [theme settings](/docs/shopify/theme-settings).'],
+          ['`locales/`', 'Переклади: тексти вітрини й тексти редактора.', 'Фільтр `t` і префікс `t:` у схемах. Див. [locales](/docs/shopify/locales).'],
         ],
       },
       {
@@ -90,11 +90,11 @@ export const shopifyThemePages: DocPage[] = [
         type: 'list',
         ordered: true,
         items: [
-          '**URL → тип сторінки.** `/products/keratin-shampoo` — це товар, отже потрібен шаблон `product`. Shopify заодно кладе в контекст обʼєкт `product` (на сторінці колекції — `collection`, і так далі).',
-          '**Тип → файл шаблона.** Якщо товару в адмінці призначено альтернативний шаблон `alternate`, береться `templates/product.alternate.json`, інакше — `templates/product.json` (або `.liquid`).',
-          '**Шаблон → секції.** JSON-шаблон — це список секцій у порядку `order`. Кожна секція рендериться окремо, зі своїми `section.settings` і `section.blocks`.',
+          '**URL → тип сторінки.** `/products/keratin-shampoo` — це product, отже потрібен template `product`. Shopify заодно кладе в контекст обʼєкт `product` (на сторінці колекції — `collection`, і так далі).',
+          '**Тип → файл template.** Якщо product в адмінці призначено альтернативний template `alternate`, береться `templates/product.alternate.json`, інакше — `templates/product.json` (або `.liquid`).',
+          '**Template → секції.** JSON template — це список секцій у порядку `order`. Кожна секція рендериться окремо, зі своїми `section.settings` і `section.blocks`.',
           '**Секції → блоки й сніпети.** Секція обходить `section.blocks` (або викликає `content_for`) і підтягує сніпети через `render`.',
-          '**Усе це → у лейаут.** Готовий HTML шаблона підставляється в `layout/theme.liquid` на місце `content_for_layout`. Сам лейаут додає `<head>`, групи секцій хедера та футера і службові скрипти з `content_for_header`.',
+          '**Усе це → у layout.** Готовий HTML template підставляється в `layout/theme.liquid` на місце `content_for_layout`. Сам layout додає `<head>`, section groups хедера та футера і службові скрипти з `content_for_header`.',
         ],
       },
       {
@@ -118,7 +118,7 @@ export const shopifyThemePages: DocPage[] = [
       },
       {
         type: 'example',
-        title: 'Ланцюжок у мініатюрі: шаблон → секція → сніпет',
+        title: 'Ланцюжок у мініатюрі: template → секція → сніпет',
         preset: 'product',
         view: 'html',
         template: `{% comment %} Це роль templates/product.liquid {% endcomment %}
@@ -132,16 +132,16 @@ export const shopifyThemePages: DocPage[] = [
 {% endschema %}`,
           'vendor-badge': `<span class="badge">{{ vendor | upcase }}</span>`,
         },
-        note: 'Подивись на обгортку у виводі: `<div id="shopify-section-…" class="shopify-section">`. Її додає **платформа**, а не твій код — кожна секція на сторінці живе у власному контейнері з унікальним `id`. Саме за нього чіпляється редактор теми й Section Rendering API.',
+        note: 'Подивись на обгортку в output: `<div id="shopify-section-…" class="shopify-section">`. Її додає **платформа**, а не твій код — кожна секція на сторінці живе у власному контейнері з унікальним `id`. Саме за нього чіпляється редактор теми й Section Rendering API.',
       },
       { type: 'h', text: 'Хто кого може викликати' },
       {
         type: 'table',
         head: ['Файл', 'Що може підключити', 'Чого не бачить'],
         rows: [
-          ['Лейаут', 'секції (`section`), групи секцій (`sections`), сніпети (`render`)', '—'],
-          ['Liquid-шаблон', 'секції (`section`), сніпети', 'змінних, створених у лейауті'],
-          ['JSON-шаблон', 'тільки секції — переліком у JSON, без жодного Liquid', '—'],
+          ['Layout', 'секції (`section`), section groups (`sections`), сніпети (`render`)', '—'],
+          ['Liquid template', 'секції (`section`), сніпети', 'змінних, створених у layout'],
+          ['JSON template', 'тільки секції — переліком у JSON, без жодного Liquid', '—'],
           ['Секція', 'сніпети, свої блоки, theme blocks (`content_for`). **Іншу секцію — ні.**', 'змінних, створених поза секцією'],
           ['Theme block', 'сніпети, вкладені блоки', 'змінних секції (лише обʼєкти `section` і `block`)'],
           ['Сніпет', 'інші сніпети', 'змінних того, хто його викликав, — крім переданих параметрами'],
@@ -149,7 +149,7 @@ export const shopifyThemePages: DocPage[] = [
       },
       {
         type: 'p',
-        text: 'Спільне правило: **глобальні обʼєкти** (`shop`, `cart`, `settings`, `request`, `routes`, а на сторінці товару ще й `product`) видно всюди. А от змінні, створені через `assign` чи `capture`, **межу файла не перетинають**: ні в секцію ззовні, ні в сніпет без явного параметра. Це не примха — саме ізольованість дозволяє Shopify рендерити секцію окремо від сторінки, коли мерчант щось змінює в редакторі.',
+        text: 'Спільне правило: **глобальні обʼєкти** (`shop`, `cart`, `settings`, `request`, `routes`, а на сторінці product ще й `product`) видно всюди. А от змінні, створені через `assign` чи `capture`, **межу файла не перетинають**: ні в секцію ззовні, ні в сніпет без явного параметра. Це не примха — саме ізольованість дозволяє Shopify рендерити секцію окремо від сторінки, коли мерчант щось змінює в редакторі.',
       },
       {
         type: 'example',
@@ -170,24 +170,24 @@ export const shopifyThemePages: DocPage[] = [
         type: 'table',
         head: ['', 'Вінтажна тема', 'Online Store 2.0'],
         rows: [
-          ['Шаблони', '`.liquid` із розміткою всередині', '`.json` — лише перелік секцій'],
+          ['Templates', '`.liquid` із розміткою всередині', '`.json` — лише перелік секцій'],
           ['Секції, які мерчант додає сам', 'тільки на головній (через `content_for_index`)', 'на будь-якій сторінці'],
-          ['Хедер і футер', 'статичні секції в лейауті', 'групи секцій — туди теж можна додавати секції'],
+          ['Хедер і футер', 'статичні секції в layout', 'section groups — туди теж можна додавати секції'],
           ['Блоки застосунків', 'застосунок правив код теми', 'app blocks: застосунок додається в секцію без правок коду'],
-          ['Динамічні дані в налаштуваннях', 'немає', 'метаполя як dynamic sources'],
+          ['Динамічні дані в налаштуваннях', 'немає', 'metafield як dynamic sources'],
         ],
       },
       {
         type: 'note',
         tone: 'shopify',
         title: 'Як це виглядає в Dawn',
-        text: 'У Dawn майже всі файли в `templates/` — JSON. Розмітка сторінки товару живе в `sections/main-product.liquid`, картка товару — у `snippets/card-product.liquid`, хедер і футер зібрані в `sections/header-group.json` та `sections/footer-group.json`. CSS і JS порізані на дрібні файли в `assets/`, і кожна секція підключає лише свої. Відкрий Dawn на GitHub і пройди цим маршрутом для сторінки товару — це найшвидший спосіб «побачити» архітектуру.',
+        text: 'У Dawn майже всі файли в `templates/` — JSON. Розмітка сторінки product живе в `sections/main-product.liquid`, картка product — у `snippets/card-product.liquid`, хедер і футер зібрані в `sections/header-group.json` та `sections/footer-group.json`. CSS і JS порізані на дрібні файли в `assets/`, і кожна секція підключає лише свої. Відкрий Dawn на GitHub і пройди цим маршрутом для сторінки product — це найшвидший спосіб «побачити» архітектуру.',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Розкажи структуру теми»',
-        text: 'Не перелічуй теки за алфавітом — розкажи **шлях запиту**. «Shopify за URL визначає тип сторінки й бере відповідний файл із `templates`. У темах 2.0 це JSON зі списком секцій. Секції лежать у `sections`, мають схему з налаштуваннями й блоками, а повторювану розмітку виносять у `snippets`. Результат шаблона вставляється в `layout/theme.liquid` через `content_for_layout`. Поруч — `assets` зі статикою, `config` із глобальними налаштуваннями і `locales` з перекладами». Тридцять секунд — і видно, що ти розумієш, як частини повʼязані.',
+        text: 'Не перелічуй теки за алфавітом — розкажи **шлях запиту**. «Shopify за URL визначає тип сторінки й бере відповідний файл із `templates`. У темах 2.0 це JSON зі списком секцій. Секції лежать у `sections`, мають схему з налаштуваннями й блоками, а повторювану розмітку виносять у `snippets`. Результат template вставляється в `layout/theme.liquid` через `content_for_layout`. Поруч — `assets` зі статикою, `config` із глобальними налаштуваннями і `locales` з перекладами». Тридцять секунд — і видно, що ти розумієш, як частини повʼязані.',
       },
       {
         type: 'note',
@@ -198,7 +198,7 @@ export const shopifyThemePages: DocPage[] = [
       {
         type: 'note',
         tone: 'tip',
-        text: 'Локально з темою працюють через Shopify CLI: `shopify theme dev` піднімає превʼю з гарячим оновленням, `shopify theme check` ганяє лінтер Theme Check, який ловить і помилки Liquid, і порушення структури (невідомий сніпет, невалідна схема, застарілий фільтр).',
+        text: 'Локально з темою працюють через Shopify CLI: `shopify theme dev` піднімає превʼю з гарячим оновленням, `shopify theme check` ганяє лінтер Theme Check, який ловить і помилки Liquid, і порушення структури (невідомий сніпет, невалідна схема, deprecated фільтр).',
       },
     ],
   },
@@ -207,15 +207,15 @@ export const shopifyThemePages: DocPage[] = [
   {
     slug: 'layouts-and-templates',
     section: 'shopify',
-    title: 'Лейаути й шаблони: theme.liquid, суфікси, обʼєкт template',
+    title: 'Layouts і templates: theme.liquid, суфікси, обʼєкт template',
     summary:
-      'Лейаут — рамка сторінки з двома обовʼязковими обʼєктами: `content_for_header` і `content_for_layout`. Шаблон — вміст конкретного типу сторінки; у нього можуть бути альтернативні версії із суфіксом.',
+      'Layout — рамка сторінки з двома обовʼязковими обʼєктами: `content_for_header` і `content_for_layout`. Template — вміст конкретного типу сторінки; у нього можуть бути альтернативні версії із суфіксом.',
     officialUrl: 'https://shopify.dev/docs/storefronts/themes/architecture/layouts',
     related: ['shopify/architecture', 'shopify/json-templates', 'shopify/section-groups', 'shopify/assets'],
     blocks: [
       {
         type: 'p',
-        text: 'Лейаут відповідає на питання «що є **на кожній** сторінці»: `<head>`, метатеги, підключення CSS, хедер, футер. Шаблон — «що є **саме на цій**»: товар, колекція, кошик. Shopify рендерить шаблон, а результат вставляє в лейаут.',
+        text: 'Layout (рамка сторінки) відповідає на питання «що є **на кожній** сторінці»: `<head>`, метатеги, підключення CSS, хедер, футер. Template — «що є **саме на цій**»: product, collection, cart. Shopify рендерить template, а результат вставляє в layout.',
       },
       {
         type: 'code',
@@ -250,7 +250,7 @@ export const shopifyThemePages: DocPage[] = [
         head: ['Обʼєкт', 'Де має стояти', 'Що виводить'],
         rows: [
           ['`content_for_header`', 'усередині `<head>`', 'Усе, що потрібно самій платформі: скрипти аналітики, застосунків, динамічного чекауту, зібрані бандли з тегів `javascript`/`stylesheet`, службові метадані редактора теми.'],
-          ['`content_for_layout`', 'усередині `<body>`', 'Відрендерений вміст поточного шаблона — тобто всі його секції.'],
+          ['`content_for_layout`', 'усередині `<body>`', 'Відрендерений вміст поточного template — тобто всі його секції.'],
         ],
       },
       {
@@ -261,7 +261,7 @@ export const shopifyThemePages: DocPage[] = [
       },
       {
         type: 'example',
-        title: 'Лейаут у мініатюрі',
+        title: 'Layout у мініатюрі',
         view: 'html',
         data: {
           page_title: 'Шампунь із кератином – Liquid Lab',
@@ -278,17 +278,17 @@ export const shopifyThemePages: DocPage[] = [
   <main>{{ content_for_layout }}</main>
   <footer>© Liquid Lab</footer>
 </body>`,
-        note: 'Для лейаута обидва обʼєкти — просто готові рядки HTML. У пісочниці ми підклали їх руками через дані; у Shopify їх формує платформа. Зміни `content_for_layout` у даних — і «сторінка» стане іншою, а рамка лишиться.',
+        note: 'Для layout обидва обʼєкти — просто готовий HTML як string. У пісочниці ми підклали їх руками через дані; у Shopify їх формує платформа. Зміни `content_for_layout` у даних — і «сторінка» стане іншою, а рамка лишиться.',
       },
-      { type: 'h', text: 'Альтернативні лейаути' },
+      { type: 'h', text: 'Альтернативний layout' },
       {
         type: 'p',
-        text: 'Лейаутів може бути кілька. Типовий другий — `layout/password.liquid` для сторінки-заглушки закритого магазину: там не потрібні ні меню, ні кошик. Інші приклади — лендинг без хедера чи сторінка для вбудовування. Як шаблон обирає лейаут, залежить від його формату:',
+        text: 'Layout може бути не один. Типовий другий — `layout/password.liquid` для сторінки-заглушки закритого магазину: там не потрібні ні меню, ні кошик. Інші приклади — лендинг без хедера чи сторінка для вбудовування. Як template обирає layout, залежить від його формату:',
       },
       {
         type: 'code',
         lang: 'liquid',
-        title: 'У Liquid-шаблоні — тег layout (зазвичай першим рядком)',
+        title: 'У Liquid template — тег layout (зазвичай першим рядком)',
         code: `{% layout 'full-width' %}   {% comment %} візьме layout/full-width.liquid {% endcomment %}
 
 {% layout none %}            {% comment %} без лейаута взагалі: голий вивід шаблона {% endcomment %}`,
@@ -296,7 +296,7 @@ export const shopifyThemePages: DocPage[] = [
       {
         type: 'code',
         lang: 'json',
-        title: 'У JSON-шаблоні — атрибут layout',
+        title: 'У JSON template — атрибут layout',
         code: `{
   "layout": "password",
   "sections": { "main": { "type": "main-password" } },
@@ -305,28 +305,28 @@ export const shopifyThemePages: DocPage[] = [
       },
       {
         type: 'p',
-        text: 'Якщо нічого не вказати, береться `theme.liquid`. У JSON-шаблоні можна написати й `"layout": false` — це аналог `layout none`.',
+        text: 'Якщо нічого не вказати, береться `theme.liquid`. У JSON template можна написати й `"layout": false` — це аналог `layout none`.',
       },
       {
         type: 'example',
-        title: 'Навіщо layout none: шаблон, що віддає дані',
+        title: 'Навіщо layout none: template, що віддає дані',
         preset: 'collection',
         template: `{% layout none %}
 {
   "collection": {{ collection.handle | json }},
   "products": {{ collection.products | map: 'handle' | json }}
 }`,
-        note: 'Класичний прийом: альтернативний Liquid-шаблон `collection.feed.liquid` без лейаута, який JS забирає запитом на `/collections/home-care?view=feed`. У сучасних темах для підвантаження HTML частіше беруть Section Rendering API, але цей патерн досі живе в багатьох магазинах — і про нього питають. У пісочниці тег `layout` нічого не робить: лейаута тут і так немає.',
+        note: 'Класичний прийом: альтернативний Liquid template `collection.feed.liquid` без layout, який JS забирає запитом на `/collections/home-care?view=feed`. У сучасних темах для підвантаження HTML частіше беруть Section Rendering API, але цей патерн досі живе в багатьох магазинах — і про нього питають. У пісочниці тег `layout` нічого не робить: layout тут і так немає.',
       },
       {
         type: 'note',
         tone: 'warn',
-        text: 'JSON-шаблон із `"layout": false` **не можна налаштовувати в редакторі теми**: редактору потрібні скрипти з `content_for_header`, а вони живуть у лейауті.',
+        text: 'JSON template із `"layout": false` **не можна налаштовувати в редакторі теми**: редактору потрібні скрипти з `content_for_header`, а вони живуть у layout.',
       },
-      { type: 'h', text: 'Типи шаблонів' },
+      { type: 'h', text: 'Типи templates' },
       {
         type: 'table',
-        head: ['Шаблон', 'Сторінка', 'Головний обʼєкт'],
+        head: ['Template', 'Сторінка', 'Головний обʼєкт'],
         rows: [
           ['`index`', 'головна', '—'],
           ['`product`', '`/products/<handle>`', '`product`'],
@@ -339,19 +339,19 @@ export const shopifyThemePages: DocPage[] = [
           ['`search`', '`/search`', '`search`'],
           ['`404`', 'неіснуюча адреса', '—'],
           ['`password`', 'заглушка закритого магазину', '—'],
-          ['`metaobject/<тип>`', 'сторінка запису метаобʼєкта', '`metaobject`'],
+          ['`metaobject/<тип>`', 'сторінка запису metaobject', '`metaobject`'],
           ['`gift_card.liquid`', 'сторінка подарункової картки', '`gift_card`'],
           ['`robots.txt.liquid`', '`/robots.txt`', '`robots`'],
         ],
       },
       {
         type: 'p',
-        text: 'Майже всі шаблони можуть бути і JSON, і Liquid. Винятки — `gift_card`, `robots.txt` і ще кілька службових текстових шаблонів: вони **тільки Liquid**, бо секцій там не буває. Шаблони `customers/*` (класичні акаунти покупців) Shopify позначає як застарілі.',
+        text: 'Майже всі templates можуть бути і JSON, і Liquid. Винятки — `gift_card`, `robots.txt` і ще кілька службових текстових templates: вони **тільки Liquid**, бо секцій там не буває. Templates `customers/*` (класичні customer accounts) Shopify позначає як deprecated.',
       },
-      { type: 'h', text: 'Альтернативні шаблони (суфікси)' },
+      { type: 'h', text: 'Альтернативні templates (суфікси)' },
       {
         type: 'p',
-        text: 'Один тип сторінки може мати кілька шаблонів. Імʼя будується як `тип.суфікс.розширення`: `product.alternate.json`, `page.contact.json`, `collection.lookbook.json`. Мерчант призначає такий шаблон конкретному товару чи сторінці в адмінці (поле «Шаблон теми»), а розробник може перевірити його без призначення — параметром `?view=alternate` в адресі.',
+        text: 'Один тип сторінки може мати кілька templates. Імʼя будується як `тип.суфікс.розширення`: `product.alternate.json`, `page.contact.json`, `collection.lookbook.json`. Мерчант призначає такий template конкретному product чи сторінці в адмінці (поле «Шаблон теми»), а розробник може перевірити його без призначення — параметром `?view=alternate` в адресі.',
       },
       {
         type: 'example',
@@ -362,25 +362,25 @@ suffix: {{ template.suffix }}
 directory: {{ template.directory | default: '(корінь templates)' }}
 
 <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}--{{ template.suffix }}{% endif %}">`,
-        note: '`suffix` — `nil` для основного шаблона, `directory` — `customers` або `metaobject` для шаблонів із підтек, інакше `nil`. У Shopify сам обʼєкт ще й друкується рядком: `{{ template }}` дасть `product.alternate`. Пісочниця цього не вміє, тому звертайся до полів.',
+        note: '`suffix` — `nil` для основного template, `directory` — `customers` або `metaobject` для templates із підтек, інакше `nil`. У Shopify сам обʼєкт ще й рендериться як string: `{{ template }}` дасть `product.alternate`. Пісочниця цього не вміє, тому звертайся до полів.',
       },
       {
         type: 'note',
         tone: 'warn',
-        title: 'Основний шаблон суфіксом не замінити',
-        text: 'Альтернативний шаблон не може «перекрити» дефолтний: `product.json` завжди лишається шаблоном для всіх товарів, яким нічого не призначено. Хочеш змінити сторінку всіх товарів — редагуй основний шаблон.',
+        title: 'Основний template суфіксом не замінити',
+        text: 'Альтернативний template не може «перекрити» дефолтний: `product.json` завжди лишається template для всіх product, яким нічого не призначено. Хочеш змінити сторінку всіх product — редагуй основний template.',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: content_for_header і content_for_layout',
-        text: 'Питають майже завжди. Відповідь: «Це два обовʼязкові обʼєкти лейаута. `content_for_header` стоїть у `<head>` і виводить скрипти, потрібні Shopify та застосункам; його не можна модифікувати. `content_for_layout` стоїть у `<body>` і виводить відрендерений шаблон поточної сторінки. Лейаут — рамка, шаблон — вміст». Бонус — згадати, що критичні для першого екрана ресурси варто ставити **перед** `content_for_header`, бо він тягне чимало сторонніх скриптів.',
+        text: 'Питають майже завжди. Відповідь: «Це два обовʼязкові обʼєкти layout. `content_for_header` стоїть у `<head>` і виводить скрипти, потрібні Shopify та застосункам; його не можна модифікувати. `content_for_layout` стоїть у `<body>` і виводить відрендерений template поточної сторінки. Layout — рамка, template — вміст». Бонус — згадати, що критичні для першого екрана ресурси варто ставити **перед** `content_for_header`, бо він тягне чимало сторонніх скриптів.',
       },
       {
         type: 'note',
         tone: 'interview',
-        title: 'На співбесіді: «Частині товарів потрібна інша сторінка. Як?»',
-        text: 'Створюю альтернативний шаблон `product.<суфікс>.json` з іншим набором секцій; мерчант призначає його потрібним товарам в адмінці (можна масово). Код секцій при цьому спільний — відрізняється лише JSON. Якщо різниця дрібна (один блок), краще не плодити шаблони, а розгалузитися всередині секції за тегом, метаполем чи `template.suffix`.',
+        title: 'На співбесіді: «Частині product потрібна інша сторінка. Як?»',
+        text: 'Створюю альтернативний template `product.<суфікс>.json` з іншим набором секцій; мерчант призначає його потрібним product в адмінці (можна масово). Код секцій при цьому спільний — відрізняється лише JSON. Якщо різниця дрібна (один блок), краще не плодити templates, а розгалузитися всередині секції за тегом, metafield чи `template.suffix`.',
       },
     ],
   },
@@ -389,15 +389,15 @@ directory: {{ template.directory | default: '(корінь templates)' }}
   {
     slug: 'json-templates',
     section: 'shopify',
-    title: 'JSON-шаблони: «секції всюди»',
+    title: 'JSON templates: «секції всюди»',
     summary:
-      'JSON-шаблон не містить розмітки — лише перелік секцій, їхні налаштування й порядок. Саме він дає мерчанту змогу збирати будь-яку сторінку в редакторі теми.',
+      'JSON template не містить розмітки — лише перелік секцій, їхні налаштування й порядок. Саме він дає мерчанту змогу збирати будь-яку сторінку в редакторі теми.',
     officialUrl: 'https://shopify.dev/docs/storefronts/themes/architecture/templates/json-templates',
     related: ['shopify/layouts-and-templates', 'shopify/sections-and-schema', 'shopify/blocks', 'shopify/section-groups'],
     blocks: [
       {
         type: 'p',
-        text: 'Liquid-шаблон — це код: що написав розробник, те й буде на сторінці. JSON-шаблон — це **дані**: список секцій, які треба відрендерити, і значення їхніх налаштувань. Код живе в секціях, а шаблон лише каже, які з них узяти і в якому порядку. Дані, на відміну від коду, може безпечно редагувати людина без навичок програмування — через редактор теми.',
+        text: 'Liquid template — це код: що написав розробник, те й буде на сторінці. JSON template — це **дані**: список секцій, які треба відрендерити, і значення їхніх налаштувань. Код живе в секціях, а template лише каже, які з них узяти і в якому порядку. Дані, на відміну від коду, може безпечно редагувати людина без навичок програмування — через редактор теми.',
       },
       {
         type: 'code',
@@ -428,10 +428,10 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'table',
         head: ['Атрибут', 'Обовʼязковий', 'Що означає'],
         rows: [
-          ['`sections`', 'так', 'Обʼєкт: ключ — довільний унікальний ID секції в межах шаблона, значення — її дані.'],
+          ['`sections`', 'так', 'Обʼєкт: ключ — довільний унікальний ID секції в межах template, значення — її дані.'],
           ['`order`', 'так', 'Масив ID: у якому порядку рендерити. Секція, якої немає в `order`, не виведеться.'],
-          ['`layout`', 'ні', 'Імʼя лейаута без `.liquid` або `false`. За замовчуванням — `theme`.'],
-          ['`wrapper`', 'ні', 'Обгортка навколо всіх секцій шаблона: `div`, `main` або `section` із класами й атрибутами, напр. `"main#product.page-width[data-page=product]"`.'],
+          ['`layout`', 'ні', 'Імʼя layout без `.liquid` або `false`. За замовчуванням — `theme`.'],
+          ['`wrapper`', 'ні', 'Обгортка навколо всіх секцій template: `div`, `main` або `section` із класами й атрибутами, напр. `"main#product.page-width[data-page=product]"`.'],
         ],
       },
       {
@@ -467,12 +467,12 @@ directory: {{ template.directory | default: '(корінь templates)' }}
     тут відрендериться sections/{{ s.type }}.liquid
   </div>
 {% endfor %}`,
-        note: 'Це **модель**, а не справжній механізм: у темі такого коду немає, обхід робить платформа. Але логіка саме така — пройти `order`, пропустити `disabled`, для кожної секції знайти файл за `type` і загорнути вивід у `div` з унікальним `id`. Зверни увагу на формат ID: `template--<число>__<ключ>` — так виглядає `section.id` у секцій із JSON-шаблонів.',
+        note: 'Це **модель**, а не справжній механізм: у темі такого коду немає, обхід робить платформа. Але логіка саме така — пройти `order`, пропустити `disabled`, для кожної секції знайти файл за `type` і загорнути output у `div` з унікальним `id`. Зверни увагу на формат ID: `template--<число>__<ключ>` — так виглядає `section.id` у секцій із JSON templates.',
       },
       { type: 'h', text: 'Чому OS 2.0 = «секції всюди»' },
       {
         type: 'p',
-        text: 'Секції зʼявилися ще до Online Store 2.0, але мерчант міг додавати й переставляти їх **лише на головній** — через обʼєкт `content_for_index`. Усі інші сторінки були Liquid-шаблонами з жорсткою розміткою: захотів банер над товаром — клич розробника. JSON-шаблони прибрали це обмеження: будь-який тип сторінки тепер — список секцій, який можна редагувати мишкою. Звідси й гасло «sections everywhere».',
+        text: 'Секції зʼявилися ще до Online Store 2.0, але мерчант міг додавати й переставляти їх **лише на головній** — через обʼєкт `content_for_index`. Усі інші сторінки були Liquid templates з жорсткою розміткою: захотів банер на сторінці product — клич розробника. JSON templates прибрали це обмеження: будь-який тип сторінки тепер — список секцій, який можна редагувати мишкою. Звідси й гасло «sections everywhere».',
       },
       {
         type: 'example',
@@ -490,16 +490,16 @@ directory: {{ template.directory | default: '(корінь templates)' }}
   ]
 }
 {% endschema %}`,
-        note: 'Тут обʼєкт `section` підкладено даними — так, ніби його значення прийшли з `product.json`. Схема каже «за замовчуванням 6», шаблон каже «4» — виграє шаблон. Без підкладених даних пісочниця зібрала б `section` із самих `default` — і ти побачив би «Вам може сподобатись» і 6.',
+        note: 'Тут обʼєкт `section` підкладено даними — так, ніби його значення прийшли з `product.json`. Схема каже «за замовчуванням 6», template каже «4» — виграє template. Без підкладених даних пісочниця зібрала б `section` із самих `default` — і ти побачив би «Вам може сподобатись» і 6.',
       },
       { type: 'h', text: 'Ліміти' },
       {
         type: 'table',
         head: ['Що', 'Скільки'],
         rows: [
-          ['Секцій в одному JSON-шаблоні', 'до 25'],
+          ['Секцій в одному JSON template', 'до 25'],
           ['Блоків в одній секції', 'до 50 (у схемі можна звузити через `max_blocks`)'],
-          ['JSON-шаблонів у темі, усіх типів разом', 'до 1000'],
+          ['JSON templates у темі, усіх типів разом', 'до 1000'],
         ],
       },
       {
@@ -512,8 +512,8 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'list',
         ordered: true,
         items: [
-          'Відкриває редактор теми й обирає шаблон зі списку (наприклад, «Товар → alternate»).',
-          'Тисне «Додати секцію». У списку — секції, що мають `presets` у схемі й дозволені для цього шаблона через `enabled_on` / `disabled_on`.',
+          'Відкриває редактор теми й обирає template зі списку (наприклад, «Товар → alternate»).',
+          'Тисне «Додати секцію». У списку — секції, що мають `presets` у схемі й дозволені для цього template через `enabled_on` / `disabled_on`.',
           'Shopify створює в JSON новий запис: генерує ID, ставить `type`, копіює `settings` і `blocks` із вибраного пресета.',
           'Мерчант змінює налаштування, додає й тягає блоки, ховає секції — кожна дія змінює `settings`, `blocks`, `block_order`, `order` або `disabled`.',
           '«Зберегти» записує JSON-файл назад у тему.',
@@ -523,18 +523,18 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'note',
         tone: 'warn',
         title: 'Файл належить не лише тобі',
-        text: 'JSON-шаблони (а ще групи секцій і `settings_data.json`) редактор теми **перезаписує**. Якщо ти задеплоїш свою локальну копію `templates/index.json` поверх живої теми, то зітреш усе, що мерчант зібрав на головній. Тому перед роботою роблять `shopify theme pull`, а в деплої з CI ці файли зазвичай виключають або зливають окремо.',
+        text: 'JSON templates (а ще section groups і `settings_data.json`) редактор теми **перезаписує**. Якщо ти задеплоїш свою локальну копію `templates/index.json` поверх живої теми, то зітреш усе, що мерчант зібрав на головній. Тому перед роботою роблять `shopify theme pull`, а в деплої з CI ці файли зазвичай виключають або зливають окремо.',
       },
       {
         type: 'note',
         tone: 'warn',
         title: 'У JSON немає Liquid',
-        text: 'Жодних `{% if %}` чи `{{ product.title }}` у шаблоні. Уся логіка — в секціях. Якщо тобі кортить «трохи умови в шаблоні» — це сигнал зробити налаштування секції або окремий альтернативний шаблон.',
+        text: 'Жодних `{% if %}` чи `{{ product.title }}` у template. Уся логіка — в секціях. Якщо тобі кортить «трохи умови в template» — це сигнал зробити налаштування секції або окремий альтернативний template.',
       },
       {
         type: 'code',
         lang: 'json',
-        title: 'wrapper: спільна обгортка для секцій шаблона',
+        title: 'wrapper: спільна обгортка для секцій template',
         code: `{
   "wrapper": "div#product-page.page-width[data-template=product]",
   "sections": { "main": { "type": "main-product" } },
@@ -549,14 +549,14 @@ directory: {{ template.directory | default: '(корінь templates)' }}
       {
         type: 'note',
         tone: 'interview',
-        title: 'На співбесіді: «Чим JSON-шаблон відрізняється від Liquid-шаблона?»',
-        text: 'Liquid-шаблон містить розмітку й логіку, і змінити склад сторінки може лише розробник. JSON-шаблон містить тільки дані: які секції, в якому порядку, з якими налаштуваннями. Розмітка переїжджає в секції, а мерчант отримує змогу додавати, переставляти й ховати їх на будь-якій сторінці. Ціна — у шаблоні не можна писати Liquid, а файл перезаписується редактором.',
+        title: 'На співбесіді: «Чим JSON template відрізняється від Liquid template?»',
+        text: 'Liquid template містить розмітку й логіку, і змінити склад сторінки може лише розробник. JSON template містить тільки дані: які секції, в якому порядку, з якими налаштуваннями. Розмітка переїжджає в секції, а мерчант отримує змогу додавати, переставляти й ховати їх на будь-якій сторінці. Ціна — у template не можна писати Liquid, а файл перезаписується редактором.',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Як перевести стару тему на OS 2.0?»',
-        text: 'Коротко, по кроках: розмітку кожного `templates/*.liquid` переношу в секцію `main-<тип>`; замість шаблона створюю JSON, який цю секцію підключає; статичні `{% section %}` усередині шаблонів стають записами в JSON; жорстко зашиті параметри — налаштуваннями схеми; хедер і футер — групами секцій; вставки коду застосунків замінюю на app blocks (додаю `@app` у схеми). Змінні, які раніше «протікали» з шаблона в `include`, доведеться передавати явно — секції ізольовані.',
+        text: 'Коротко, по кроках: розмітку кожного `templates/*.liquid` переношу в секцію `main-<тип>`; замість template створюю JSON, який цю секцію підключає; статичні `{% section %}` усередині templates стають записами в JSON; жорстко зашиті параметри — налаштуваннями схеми; хедер і футер — section groups; вставки коду застосунків замінюю на app blocks (додаю `@app` у схеми). Змінні, які раніше «протікали» з template в `include`, доведеться передавати явно — секції ізольовані.',
       },
     ],
   },
@@ -610,7 +610,7 @@ directory: {{ template.directory | default: '(корінь templates)' }}
   "presets": [{ "name": "Банер" }]
 }
 {% endschema %}`,
-        note: 'Пісочниця читає схему й збирає `section.settings` із полів `default` — так само, як редактор теми в момент, коли мерчант щойно додав секцію. Зміни `"default": true` на `false` у чекбокса — кнопка зникне. Сам тег `schema` у HTML нічого не друкує.',
+        note: 'Пісочниця читає схему й збирає `section.settings` із полів `default` — так само, як редактор теми в момент, коли мерчант щойно додав секцію. Зміни `"default": true` на `false` у чекбокса — кнопка зникне. Сам тег `schema` в HTML нічого не виводить.',
       },
       { type: 'h', text: 'Атрибути схеми' },
       {
@@ -620,14 +620,14 @@ directory: {{ template.directory | default: '(корінь templates)' }}
           ['`name`', 'Назва секції в редакторі теми. Єдине, без чого схема не має сенсу.'],
           ['`tag`', 'HTML-елемент обгортки замість `div`: `article`, `aside`, `div`, `footer`, `header` або `section`.'],
           ['`class`', 'Додатковий клас на обгортці (поруч зі службовим `shopify-section`).'],
-          ['`limit`', 'Скільки разів секцію можна додати в один шаблон чи групу: `1` або `2`.'],
+          ['`limit`', 'Скільки разів секцію можна додати в один template чи section group: `1` або `2`.'],
           ['`settings`', 'Масив налаштувань секції. `id` унікальні в межах секції.'],
           ['`blocks`', 'Типи блоків, які приймає секція. Див. [блоки](/docs/shopify/blocks).'],
           ['`max_blocks`', 'Стеля кількості блоків. Без нього діє загальний ліміт — 50.'],
           ['`presets`', 'Готові конфігурації для списку «Додати секцію». **Немає пресета — секцію не додати через редактор.**'],
           ['`default`', 'Стартова конфігурація для секції, підключеної **статично** (тегом `section`).'],
-          ['`enabled_on` / `disabled_on`', 'Де секцію дозволено або заборонено: за типами шаблонів (`templates`) і групами секцій (`groups`). Використовується щось одне.'],
-          ['`locales`', 'Переклади, що їдуть разом із секцією. Див. [локалі](/docs/shopify/locales).'],
+          ['`enabled_on` / `disabled_on`', 'Де секцію дозволено або заборонено: за типами templates (`templates`) і section groups (`groups`). Використовується щось одне.'],
+          ['`locales`', 'Переклади, що їдуть разом із секцією. Див. [locales](/docs/shopify/locales).'],
         ],
       },
       {
@@ -661,36 +661,36 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'table',
         head: ['Базовий тип', 'Що повертає', 'Особливості'],
         rows: [
-          ['`text`', 'рядок', 'однорядкове поле'],
-          ['`textarea`', 'рядок', 'багаторядкове поле'],
+          ['`text`', 'string', 'однорядкове поле'],
+          ['`textarea`', 'string', 'багаторядкове поле'],
           ['`number`', 'число або `nil`', 'порожнє поле — `nil`, а не `0`'],
           ['`checkbox`', '`true` / `false`', 'без `default` — `false`'],
           ['`range`', 'число', 'повзунок; обовʼязкові `min`, `max`, `step` і `default`; є `unit` для підпису'],
-          ['`select`', 'рядок (`value` опції)', '`options` — масив `{ value, label }`; опції можна групувати через `group`'],
-          ['`radio`', 'рядок', 'те саме, що `select`, але радіокнопками'],
+          ['`select`', 'string (`value` опції)', '`options` — масив `{ value, label }`; опції можна групувати через `group`'],
+          ['`radio`', 'string', 'те саме, що `select`, але радіокнопками'],
         ],
       },
       {
         type: 'table',
         head: ['Спеціалізований тип', 'Що повертає в Liquid'],
         rows: [
-          ['`richtext`', 'рядок HTML (абзаци, списки, посилання). `default` мусить бути загорнутий у `<p>` або `<ul>`'],
-          ['`inline_richtext`', 'рядок HTML без блочних тегів: жирний, курсив, посилання — для заголовків'],
-          ['`html`', 'рядок довільного HTML'],
-          ['`liquid`', 'рядок: мерчант (чи застосунок) вставляє шматок Liquid, і він виконується'],
-          ['`color`', 'обʼєкт `color` (або порожньо). Друкується як hex, має `.red`, `.alpha` тощо'],
-          ['`color_background`', 'рядок для CSS `background` — підтримує градієнти'],
+          ['`richtext`', 'string з HTML (абзаци, списки, посилання). `default` мусить бути загорнутий у `<p>` або `<ul>`'],
+          ['`inline_richtext`', 'string з HTML без блочних тегів: жирний, курсив, посилання — для заголовків'],
+          ['`html`', 'string із довільним HTML'],
+          ['`liquid`', 'string: мерчант (чи застосунок) вставляє шматок Liquid, і він виконується'],
+          ['`color`', 'обʼєкт `color` (або порожньо). Рендериться як hex, має `.red`, `.alpha` тощо'],
+          ['`color_background`', 'string для CSS `background` — підтримує градієнти'],
           ['`color_scheme` / `color_scheme_group`', 'колірна схема теми; сам набір схем оголошується в `settings_schema.json`'],
           ['`font_picker`', 'обʼєкт `font`; `default` обовʼязковий'],
           ['`image_picker`', 'обʼєкт `image` або `nil`; `default` не підтримує'],
           ['`video`', 'обʼєкт `video` (файл із розділу Files) або `nil`'],
           ['`video_url`', 'адреса YouTube/Vimeo; має `.id` і `.type`'],
-          ['`url`', 'рядок-адреса або `nil`; мерчант обирає ресурс чи вставляє посилання'],
+          ['`url`', 'string з адресою або `nil`; мерчант обирає ресурс чи вставляє посилання'],
           ['`link_list`', 'обʼєкт `linklist` (меню)'],
           ['`product`, `collection`, `blog`, `article`, `page`', 'відповідний обʼєкт або порожньо; `default` не підтримують'],
           ['`product_list`, `collection_list`, `article_list`', 'масив обʼєктів; можна обмежити через `limit`'],
-          ['`metaobject`, `metaobject_list`', 'запис(и) метаобʼєкта заданого типу'],
-          ['`text_alignment`', 'рядок: `left`, `center` або `right`'],
+          ['`metaobject`, `metaobject_list`', 'запис(и) metaobject заданого типу'],
+          ['`text_alignment`', 'string: `left`, `center` або `right`'],
         ],
       },
       {
@@ -723,7 +723,7 @@ directory: {{ template.directory | default: '(корінь templates)' }}
       },
       {
         type: 'example',
-        title: 'Ресурсні налаштування завжди можуть бути порожні',
+        title: 'Пікери завжди можуть бути порожні',
         view: 'html',
         template: `{% assign featured = section.settings.featured_product %}
 
@@ -744,14 +744,14 @@ directory: {{ template.directory | default: '(корінь templates)' }}
   "presets": [{ "name": "Товар тижня" }]
 }
 {% endschema %}`,
-        note: '`product`, `collection`, `image_picker` та інші пікери **не мають `default`**: щойно додана секція завжди порожня. Те саме станеться, коли мерчант видалить вибраний товар. Тому гілка `else` із заглушкою (`placeholder_svg_tag`) — не ввічливість, а вимога: у Theme Store без неї тему не приймуть.',
+        note: '`product`, `collection`, `image_picker` та інші пікери **не мають `default`**: щойно додана секція завжди порожня. Те саме станеться, коли мерчант видалить вибраний product. Тому гілка `else` із заглушкою (`placeholder_svg_tag`) — не ввічливість, а вимога: у Theme Store без неї тему не приймуть.',
       },
       { type: 'h', text: 'Обʼєкт section' },
       {
         type: 'table',
         head: ['Властивість', 'Що там'],
         rows: [
-          ['`section.id`', 'Для секції з JSON-шаблона чи групи — згенерований ID; для статичної — імʼя файла без `.liquid`.'],
+          ['`section.id`', 'Для секції з JSON template чи section group — згенерований ID; для статичної — імʼя файла без `.liquid`.'],
           ['`section.settings`', 'Значення налаштувань: `section.settings.<id>`.'],
           ['`section.blocks`', 'Масив блоків у порядку, який виставив мерчант.'],
           ['`section.index` / `section.index0`', 'Порядковий номер секції у своєму розташуванні (з 1 або з 0).'],
@@ -780,11 +780,11 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'table',
         head: ['', 'Динамічна', 'Статична'],
         rows: [
-          ['Як потрапляє на сторінку', 'запис у JSON-шаблоні або групі секцій', 'тег `section` у лейауті чи Liquid-шаблоні'],
+          ['Як потрапляє на сторінку', 'запис у JSON template або section group', 'тег `section` у layout чи Liquid template'],
           ['Хто вирішує, де вона стоїть', 'мерчант у редакторі', 'розробник у коді'],
           ['Додати / видалити / переставити', 'можна', 'ні, лише змінити налаштування'],
           ['Стартові значення', '`presets`', '`default`'],
-          ['Де зберігаються налаштування', 'у JSON шаблона чи групи — свої в кожному місці', 'у `settings_data.json` — **одні на всю тему**'],
+          ['Де зберігаються налаштування', 'у JSON template чи section group — свої в кожному місці', 'у `settings_data.json` — **одні на всю тему**'],
           ['`section.id`', 'згенерований', 'імʼя файла'],
         ],
       },
@@ -812,7 +812,7 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'note',
         tone: 'warn',
         title: 'Статична секція має один стан на всю тему',
-        text: 'Якщо підключити ту саму секцію тегом `section` у двох шаблонах, мерчант змінить текст в одному місці — і він зміниться всюди. Налаштування статичної секції не привʼязані до сторінки. Потрібні різні значення в різних місцях — роби секцію динамічною (JSON-шаблон або група).',
+        text: 'Якщо підключити ту саму секцію тегом `section` у двох templates, мерчант змінить текст в одному місці — і він зміниться всюди. Налаштування статичної секції не привʼязані до сторінки. Потрібні різні значення в різних місцях — роби секцію динамічною (JSON template або section group).',
       },
       {
         type: 'code',
@@ -851,25 +851,25 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'note',
         tone: 'shopify',
         title: 'Ізоляція секції',
-        text: 'Секція бачить глобальні обʼєкти, свій `section` і (в циклі) `block` — і **жодних змінних ззовні**. `assign` у лейауті чи в сусідній секції до неї не дійде, параметрів тег `section` не приймає. Завдяки цьому Shopify може перерендерити одну секцію окремо: у редакторі, коли мерчант рухає повзунок, і на вітрині — через Section Rendering API (`?sections=…`), на якому тримаються кошики-дровери й фільтри колекцій. Докладніше — в [Liquid і JavaScript](/docs/shopify/liquid-and-js).',
+        text: 'Секція бачить глобальні обʼєкти, свій `section` і (в циклі) `block` — і **жодних змінних ззовні**. `assign` у layout чи в сусідній секції до неї не дійде, параметрів тег `section` не приймає. Завдяки цьому Shopify може перерендерити одну секцію окремо: у редакторі, коли мерчант рухає повзунок, і на вітрині — через Section Rendering API (`?sections=…`), на якому тримаються cart drawer і фільтри колекцій. Докладніше — в [Liquid і JavaScript](/docs/shopify/liquid-and-js).',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Що таке schema і що в ній можна описати?»',
-        text: '«Це JSON у файлі секції, який описує її для редактора теми: назву, налаштування, блоки, пресети, обмеження на шаблони. Liquid у ньому не виконується. За схемою редактор будує форму, значення зберігає в JSON-шаблоні, а я читаю їх із `section.settings` і `block.settings`». Сильний штрих — назвати різницю `presets` / `default` і згадати, що без пресета секцію неможливо додати з редактора.',
+        text: '«Це JSON у файлі секції, який описує її для редактора теми: назву, налаштування, блоки, пресети, обмеження на templates. Liquid у ньому не виконується. За схемою редактор будує форму, значення зберігає в JSON template, а я читаю їх із `section.settings` і `block.settings`». Сильний штрих — назвати різницю `presets` / `default` і згадати, що без пресета секцію неможливо додати з редактора.',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Статична чи динамічна секція — в чому різниця?»',
-        text: 'Статична підключена тегом `section` у коді: її не можна переставити чи видалити, стартові значення беруться з `default`, а налаштування одні на всю тему. Динамічна записана в JSON-шаблоні або групі: мерчант керує нею сам, стартові значення — з `presets`, налаштування свої в кожному шаблоні. У нових темах статичних секцій майже не лишилось — навіть хедер живе в групі секцій.',
+        text: 'Статична підключена тегом `section` у коді: її не можна переставити чи видалити, стартові значення беруться з `default`, а налаштування одні на всю тему. Динамічна записана в JSON template або section group: мерчант керує нею сам, стартові значення — з `presets`, налаштування свої в кожному template. У нових темах статичних секцій майже не лишилось — навіть хедер живе в section group.',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Чому секція не бачить мою змінну?»',
-        text: 'Бо секції ізольовані: змінні, створені поза секцією, всередині недоступні, і передати параметр у секцію не можна. Варіанти: взяти дані з глобального обʼєкта (`product`, `cart`, `settings`), зробити налаштування секції, винести спільне в метаполе або обчислити значення прямо в секції. А якщо потрібно саме «передати параметр» — це робота для сніпета, не для секції.',
+        text: 'Бо секції ізольовані: змінні, створені поза секцією, всередині недоступні, і передати параметр у секцію не можна. Варіанти: взяти дані з глобального обʼєкта (`product`, `cart`, `settings`), зробити налаштування секції, винести спільне в metafield або обчислити значення прямо в секції. А якщо потрібно саме «передати параметр» — це робота для сніпета, не для секції.',
       },
       {
         type: 'note',
@@ -891,7 +891,7 @@ directory: {{ template.directory | default: '(корінь templates)' }}
     blocks: [
       {
         type: 'p',
-        text: 'Налаштування секції — це фіксована форма: скільки полів описав, стільки й буде. Блоки знімають це обмеження. Слайди, пункти FAQ, переваги, колонки футера, елементи сторінки товару (назва, ціна, кнопка, опис) — усе, чого може бути «скільки завгодно і в довільному порядку», роблять блоками.',
+        text: 'Налаштування секції — це фіксована форма: скільки полів описав, стільки й буде. Блоки знімають це обмеження. Слайди, пункти FAQ, переваги, колонки футера, елементи сторінки product (назва, ціна, кнопка, опис) — усе, чого може бути «скільки завгодно і в довільному порядку», роблять блоками.',
       },
       {
         type: 'example',
@@ -947,17 +947,17 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'table',
         head: ['Властивість', 'Що там'],
         rows: [
-          ['`block.type`', 'Тип зі схеми — довільний рядок, який ти сам вигадав. За ним розгалужують розмітку.'],
+          ['`block.type`', 'Тип зі схеми — довільний string, який ти сам вигадав. За ним розгалужують розмітку.'],
           ['`block.settings`', 'Значення налаштувань блока: `block.settings.<id>`.'],
           ['`block.id`', 'Згенерований ID. Годиться для `id`/`for` в HTML, але не для логіки: він може змінитися.'],
-          ['`block.shopify_attributes`', 'Рядок `data-`атрибутів для редактора теми. Поза редактором — порожній.'],
+          ['`block.shopify_attributes`', 'String із `data-`атрибутами для редактора теми. Поза редактором — порожній.'],
         ],
       },
       {
         type: 'note',
         tone: 'shopify',
         title: 'Навіщо block.shopify_attributes',
-        text: 'Редактор теми показує сторінку в iframe і мусить знати, **який шматок HTML відповідає якому блоку** в боковій панелі. `shopify_attributes` дає цю привʼязку: клік по елементу у превʼю відкриває налаштування його блока, а вибір блока в панелі прокручує до нього превʼю й шле подію `shopify:block:select` (на ній слайдер, наприклад, перемикається на потрібний слайд). Атрибут ставлять на **кореневий елемент блока**. На вітрині він нічого не виводить — пісочниця ж друкує його завжди, щоб ти бачив формат.',
+        text: 'Редактор теми показує сторінку в iframe і мусить знати, **який шматок HTML відповідає якому блоку** в боковій панелі. `shopify_attributes` дає цю привʼязку: клік по елементу у превʼю відкриває налаштування його блока, а вибір блока в панелі прокручує до нього превʼю й шле подію `shopify:block:select` (на ній слайдер, наприклад, перемикається на потрібний слайд). Атрибут ставлять на **кореневий елемент блока**. На вітрині він нічого не виводить — пісочниця ж виводить його завжди, щоб ти бачив формат.',
       },
       {
         type: 'note',
@@ -1130,15 +1130,15 @@ directory: {{ template.directory | default: '(корінь templates)' }}
   {
     slug: 'section-groups',
     section: 'shopify',
-    title: 'Групи секцій: хедер і футер, які збирає мерчант',
+    title: 'Section groups: хедер і футер, які збирає мерчант',
     summary:
-      'Група секцій — JSON-файл у `sections/`, який працює як JSON-шаблон, але для області лейаута: хедера, футера, бічної панелі. Виводиться тегом `sections`.',
+      'Section group — JSON-файл у `sections/`, який працює як JSON template, але для області layout: хедера, футера, бічної панелі. Виводиться тегом `sections`.',
     officialUrl: 'https://shopify.dev/docs/storefronts/themes/architecture/section-groups',
     related: ['shopify/layouts-and-templates', 'shopify/json-templates', 'shopify/sections-and-schema'],
     blocks: [
       {
         type: 'p',
-        text: 'JSON-шаблони зробили гнучким **вміст** сторінки, але хедер і футер живуть у лейауті — а лейаут це Liquid. Довгий час там стояли статичні `{% section \'header\' %}` і `{% section \'footer\' %}`: налаштувати можна, а додати поруч смугу оголошень чи блок підписки — ні. Групи секцій закрили цю діру: тепер і в лейауті є області, куди мерчант додає секції сам.',
+        text: 'JSON templates зробили гнучким **вміст** сторінки, але хедер і футер живуть у layout — а layout це Liquid. Довгий час там стояли статичні `{% section \'header\' %}` і `{% section \'footer\' %}`: налаштувати можна, а додати поруч смугу оголошень чи блок підписки — ні. Section groups закрили цю діру: тепер і в layout є області, куди мерчант додає секції сам.',
       },
       {
         type: 'code',
@@ -1158,7 +1158,7 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'note',
         tone: 'warn',
         title: 'section і sections — різні теги',
-        text: '`{% section \'header\' %}` (одна) статично рендерить файл `sections/header.liquid`. `{% sections \'header-group\' %}` (множина) рендерить **групу** — файл `sections/header-group.json`. Одна літера, а поведінка зовсім інша; на співбесіді цю пару люблять давати «на уважність».',
+        text: '`{% section \'header\' %}` (одна) статично рендерить файл `sections/header.liquid`. `{% sections \'header-group\' %}` (множина) рендерить **section group** — файл `sections/header-group.json`. Одна літера, а поведінка зовсім інша; на співбесіді цю пару люблять давати «на уважність».',
       },
       {
         type: 'code',
@@ -1186,13 +1186,13 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         rows: [
           ['`type`', 'Тип групи: `header`, `footer`, `aside` або власний `custom.<імʼя>`. З ним звіряються `enabled_on.groups` у схемах секцій.'],
           ['`name`', 'Назва групи в редакторі теми (до 50 символів).'],
-          ['`sections`', 'Секції групи: ID → `type`, `settings`, `blocks` — так само, як у JSON-шаблоні.'],
-          ['`order`', 'Порядок виводу.'],
+          ['`sections`', 'Секції групи: ID → `type`, `settings`, `blocks` — так само, як у JSON template.'],
+          ['`order`', 'Порядок рендеру.'],
         ],
       },
       {
         type: 'p',
-        text: 'Ліміти ті самі, що й у шаблонів: **до 25 секцій у групі, до 50 блоків у секції**. Файл лежить у `sections/` поруч зі звичайними секціями, а тег `sections` отримує його імʼя без `.json`.',
+        text: 'Ліміти ті самі, що й у templates: **до 25 секцій у групі, до 50 блоків у секції**. Файл лежить у `sections/` поруч зі звичайними секціями, а тег `sections` отримує його імʼя без `.json`.',
       },
       {
         type: 'example',
@@ -1215,9 +1215,9 @@ directory: {{ template.directory | default: '(корінь templates)' }}
     тут відрендериться sections/{{ s.type }}.liquid
   </div>
 {% endfor %}`,
-        note: 'Це модель на даних: справжній тег `sections` пісочниця не рендерить. Корисного тут два спостереження. ID секцій у групі мають вигляд `sections--<число>__<ключ>` (у шаблоні було `template--…`). І кожна обгортка отримує клас `shopify-section-group-<імʼя файла групи>` — за нього зручно чіплятись у CSS, наприклад щоб зробити весь хедер липким.',
+        note: 'Це модель на даних: справжній тег `sections` пісочниця не рендерить. Корисного тут два спостереження. ID секцій у групі мають вигляд `sections--<число>__<ключ>` (у template було `template--…`). І кожна обгортка отримує клас `shopify-section-group-<імʼя файла групи>` — за нього зручно чіплятись у CSS, наприклад щоб зробити весь хедер липким.',
       },
-      { type: 'h', text: 'Які секції можна додати в групу' },
+      { type: 'h', text: 'Які секції можна додати в section group' },
       {
         type: 'code',
         lang: 'json',
@@ -1232,7 +1232,7 @@ directory: {{ template.directory | default: '(корінь templates)' }}
       },
       {
         type: 'p',
-        text: 'Правило те саме, що й для шаблонів: секція зʼявиться у списку «Додати секцію» групи, якщо має `presets` і не відсічена через `enabled_on` / `disabled_on`. Без обмежень мерчант зможе поставити у футер слайдшоу з головної — іноді це те, що треба, іноді ні. Секції, що потребують контексту сторінки (`main-product`), у групах не мають сенсу взагалі: група виводиться на **кожній** сторінці, а обʼєкт `product` існує лише на сторінці товару.',
+        text: 'Правило те саме, що й для templates: секція зʼявиться у списку «Додати секцію» групи, якщо має `presets` і не відсічена через `enabled_on` / `disabled_on`. Без обмежень мерчант зможе поставити у футер слайдшоу з головної — іноді це те, що треба, іноді ні. Секції, що потребують контексту сторінки (`main-product`), у section group не мають сенсу взагалі: група виводиться на **кожній** сторінці, а обʼєкт `product` існує лише на сторінці product.',
       },
       {
         type: 'example',
@@ -1255,14 +1255,14 @@ directory: {{ template.directory | default: '(корінь templates)' }}
 {% endif %}`,
         note: '`section.location` повертає `template`, тип групи (`header`, `footer`, `aside`, `custom.<імʼя>`) або `static`. Одна й та сама секція може виглядати компактно в хедері й розлого в тілі сторінки. Тут `section` підкладено даними.',
       },
-      { type: 'h', text: 'Група секцій проти JSON-шаблона' },
+      { type: 'h', text: 'Section group проти JSON template' },
       {
         type: 'table',
-        head: ['', 'JSON-шаблон', 'Група секцій'],
+        head: ['', 'JSON template', 'Section group'],
         rows: [
           ['Де лежить', '`templates/*.json`', '`sections/*.json`'],
-          ['Що описує', 'вміст одного типу сторінки', 'область лейаута, спільну для всіх сторінок'],
-          ['Хто підключає', 'Shopify — за типом сторінки з URL', 'ти — тегом `sections` у лейауті'],
+          ['Що описує', 'вміст одного типу сторінки', 'область layout, спільну для всіх сторінок'],
+          ['Хто підключає', 'Shopify — за типом сторінки з URL', 'ти — тегом `sections` у layout'],
           ['Обовʼязкові поля', '`sections`, `order`', '`type`, `name`, `sections`, `order`'],
           ['`section.id`', '`template--…__ключ`', '`sections--…__ключ`'],
           ['`section.location`', '`template`', 'тип групи'],
@@ -1278,7 +1278,7 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'note',
         tone: 'warn',
         title: 'Не змішуй зі статичними секціями',
-        text: 'Shopify радить не ставити в одній області лейаута і групу, і статичні `{% section %}`: у редакторі мерчант бачитиме секції, які не може пересунути, упереміш із тими, які може, — і порядок у панелі перестане відповідати логіці сторінки. І тримай групи для хедера, футера та подібних «рамкових» зон: вміст сторінки — справа шаблона.',
+        text: 'Shopify радить не ставити в одній області layout і section group, і статичні `{% section %}`: у редакторі мерчант бачитиме секції, які не може пересунути, упереміш із тими, які може, — і порядок у панелі перестане відповідати логіці сторінки. І тримай section groups для хедера, футера та подібних «рамкових» зон: вміст сторінки — справа template.',
       },
       {
         type: 'note',
@@ -1289,13 +1289,13 @@ directory: {{ template.directory | default: '(корінь templates)' }}
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Мерчант хоче сам додавати банери над хедером. Як зробити?»',
-        text: '«Через групу секцій. Створюю `sections/header-group.json` з типом `header`, переношу туди секцію хедера, у лейауті замінюю статичний `{% section \'header\' %}` на `{% sections \'header-group\' %}`. Секціям, яким місце в хедері, додаю `enabled_on.groups` і пресет». Якщо тема стара — це ще й гарна нагода сказати, що статична секція мала один стан на всю тему, а тепер налаштування живуть у JSON групи.',
+        text: '«Через section group. Створюю `sections/header-group.json` з типом `header`, переношу туди секцію хедера, у layout замінюю статичний `{% section \'header\' %}` на `{% sections \'header-group\' %}`. Секціям, яким місце в хедері, додаю `enabled_on.groups` і пресет». Якщо тема стара — це ще й гарна нагода сказати, що статична секція мала один стан на всю тему, а тепер налаштування живуть у JSON групи.',
       },
       {
         type: 'note',
         tone: 'interview',
-        title: 'На співбесіді: «Чим група відрізняється від JSON-шаблона?»',
-        text: 'Формат майже однаковий — `sections` плюс `order`, ті самі ліміти. Різниця в ролі: шаблон Shopify обирає сам за типом сторінки, і він описує її вміст; групу я підключаю тегом `sections` у лейауті, і вона виводиться на всіх сторінках. У групи є `type`, за яким секції дозволяють або забороняють себе через `enabled_on.groups`, а секція всередині дізнається про своє місце з `section.location`.',
+        title: 'На співбесіді: «Чим section group відрізняється від JSON template?»',
+        text: 'Формат майже однаковий — `sections` плюс `order`, ті самі ліміти. Різниця в ролі: template Shopify обирає сам за типом сторінки, і він описує її вміст; section group я підключаю тегом `sections` у layout, і вона виводиться на всіх сторінках. У групи є `type`, за яким секції дозволяють або забороняють себе через `enabled_on.groups`, а секція всередині дізнається про своє місце з `section.location`.',
       },
     ],
   },
@@ -1306,13 +1306,13 @@ directory: {{ template.directory | default: '(корінь templates)' }}
     section: 'shopify',
     title: 'Сніпети і {% render %}',
     summary:
-      'Сніпет — файл у `snippets/` без схеми й без налаштувань. Тег `render` підключає його в **ізольованій області видимості**: усередину доходять лише глобальні обʼєкти й те, що передали параметрами.',
+      'Сніпет — файл у `snippets/` без схеми й без налаштувань. Тег `render` підключає його в **ізольованому scope** (усередину доходять лише глобальні обʼєкти й те, що передали параметрами).',
     officialUrl: 'https://shopify.dev/docs/storefronts/themes/architecture/snippets',
     related: ['shopify/architecture', 'shopify/sections-and-schema', 'shopify/blocks', 'shopify/performance', 'tags/template'],
     blocks: [
       {
         type: 'p',
-        text: 'Секція — це модуль сторінки з власною формою в редакторі теми. Сніпет — просто **шматок розмітки, який викликають із параметрами**: картка товару, бейдж знижки, іконка, блок ціни, рейтинг. Ні схеми, ні налаштувань, ні обгортки — лише те, що ти написав, і те, що йому передали. Функція, а не компонент із станом.',
+        text: 'Секція — це модуль сторінки з власною формою в редакторі теми. Сніпет — просто **шматок розмітки, який викликають із параметрами**: картка product, бейдж знижки, іконка, блок ціни, рейтинг. Ні схеми, ні налаштувань, ні обгортки — лише те, що ти написав, і те, що йому передали. Функція, а не компонент із станом.',
       },
       {
         type: 'code',
@@ -1338,10 +1338,10 @@ snippets/price.liquid            → {% render 'price' %}
         },
         note: 'Усередині сніпета `label` і `tone` — звичайні змінні верхнього рівня, ніякого `props.` чи `block.`. Параметрів може бути скільки завгодно, розділяються комами; кома після імені сніпета обовʼязкова.',
       },
-      { type: 'h', text: 'Ізольована область видимості — головне про render' },
+      { type: 'h', text: 'Ізольований scope — головне про render' },
       {
         type: 'p',
-        text: 'Сніпет **не бачить змінних того, хто його викликав**. Ні `assign`, ні `capture`, ні змінну циклу — нічого, крім переданих параметрів і глобальних обʼєктів. І навпаки: те, що сніпет створив усередині, назовні не витікає. Це не обмеження рушія, а свідомий контракт: сніпет можна прочитати й зрозуміти, не читаючи місця виклику.',
+        text: 'У сніпета власний scope: він **не бачить змінних того, хто його викликав**. Ні `assign`, ні `capture`, ні змінну циклу — нічого, крім переданих параметрів і глобальних обʼєктів. І навпаки: те, що сніпет створив усередині, назовні не витікає. Це не обмеження рушія, а свідомий контракт: сніпет можна прочитати й зрозуміти, не читаючи місця виклику.',
       },
       {
         type: 'example',
@@ -1358,7 +1358,7 @@ snippets/price.liquid            → {% render 'price' %}
       },
       {
         type: 'p',
-        text: 'Що лишається доступним усередині сніпета — **глобальні обʼєкти**: `shop`, `settings`, `cart`, `request`, `routes`, `linklists`, `localization`, `template`, `customer`. Плюс обʼєкти, які й так доступні в місці виклику «самі по собі»: на сторінці товару — `product`, на сторінці колекції — `collection`, усередині секції — `section`, усередині блока — `block`.',
+        text: 'Що лишається доступним усередині сніпета — **глобальні обʼєкти**: `shop`, `settings`, `cart`, `request`, `routes`, `linklists`, `localization`, `template`, `customer`. Плюс обʼєкти, які й так доступні в місці виклику «самі по собі»: на сторінці product — `product`, на сторінці колекції — `collection`, усередині секції — `section`, усередині блока — `block`.',
       },
       {
         type: 'example',
@@ -1375,7 +1375,7 @@ snippets/price.liquid            → {% render 'price' %}
         type: 'note',
         tone: 'warn',
         title: 'Секції ізольовані так само, але параметрів не приймають',
-        text: 'Тег `section` не має параметрів взагалі: `{% section \'header\', menu: x %}` — синтаксична помилка. Тому «передати дані вниз» можна лише сніпету. Якщо кортить передати щось у секцію — це сигнал, що дані мають прийти з глобального обʼєкта, з налаштування секції або з метаполя. Див. [секції та схема](/docs/shopify/sections-and-schema).',
+        text: 'Тег `section` не має параметрів взагалі: `{% section \'header\', menu: x %}` — синтаксична помилка. Тому «передати дані вниз» можна лише сніпету. Якщо кортить передати щось у секцію — це сигнал, що дані мають прийти з глобального обʼєкта, з налаштування секції або з metafield. Див. [секції та схема](/docs/shopify/sections-and-schema).',
       },
       { type: 'h', text: 'Три форми виклику' },
       {
@@ -1406,12 +1406,12 @@ snippets/price.liquid            → {% render 'price' %}
         type: 'note',
         tone: 'warn',
         title: 'Зміни всередині сніпета назовні не повертаються',
-        text: 'Передав `count`, сніпет зробив `{% assign count = count | plus: 1 %}` — після виклику `count` лишиться старим. Офіційне формулювання: зміни в переданій змінній діють **тільки всередині**. Сніпет не може «повернути значення» — він може лише щось надрукувати. Потрібен результат-рядок — обгорни виклик у `{% capture %}`.',
+        text: 'Передав `count`, сніпет зробив `{% assign count = count | plus: 1 %}` — після виклику `count` лишиться старим. Офіційне формулювання: зміни в переданій змінній діють **тільки всередині**. Сніпет не може «повернути значення» — він може лише щось вивести. Потрібен результат як string — обгорни виклик у `{% capture %}`.',
       },
-      { type: 'h', text: 'include: чому застарів і чим шкідливий' },
+      { type: 'h', text: 'include: чому deprecated і чим шкідливий' },
       {
         type: 'p',
-        text: 'До `render` був `{% include %}`. Він підключав той самий файл, але **без ізоляції**: сніпет бачив усі змінні місця виклику й міг їх змінювати. Shopify позначив його застарілим із формулюванням: такий спосіб роботи зі змінними **знижує продуктивність** і робить код важчим для читання й супроводу.',
+        text: 'До `render` був `{% include %}`. Він підключав той самий файл, але **без ізоляції**: сніпет бачив усі змінні місця виклику й міг їх змінювати. Shopify позначив його deprecated із формулюванням: такий спосіб роботи зі змінними **шкодить performance** і робить код важчим для читання й супроводу.',
       },
       {
         type: 'example',
@@ -1431,13 +1431,13 @@ snippets/price.liquid            → {% render 'price' %}
       },
       {
         type: 'table',
-        head: ['', '`render`', '`include` (застарілий)'],
+        head: ['', '`render`', '`include` (deprecated)'],
         rows: [
           ['Змінні викликача', 'не видно', 'видно всі'],
             ['Запис у змінні викликача', 'неможливий', 'можливий — і це головна пастка'],
           ['Передача даних', 'параметри, `with … as`, `for … as`', 'параметри теж є, але вони не потрібні — і так усе видно'],
           ['Вкладеність', 'сніпет може викликати `render`', 'усередині сніпета, підключеного через `render`, `include` **заборонений**'],
-          ['Продуктивність', 'сніпет розбирається незалежно й кешується', 'кожен виклик тягне за собою область видимості викликача'],
+          ['Performance', 'сніпет розбирається незалежно й кешується', 'кожен виклик тягне за собою scope викликача'],
           ['Статичний аналіз', 'Theme Check бачить граф залежностей', 'ні'],
         ],
       },
@@ -1481,20 +1481,20 @@ snippets/price.liquid            → {% render 'price' %}
       },
       {
         type: 'example',
-        title: 'doc нічого не друкує',
+        title: 'doc нічого не виводить',
         data: { label: 'Хіт продажів' },
         template: `{% doc %}
   @param {string} label - Текст бейджа.
 {% enddoc %}
 <span class="badge">{{ label }}</span>`,
         view: 'html',
-        note: 'У виводі — лише `<span>`. Документація лишається в коді, а не в HTML. Тим і відрізняється від `{% comment %}`: коментар — текст для людини, `doc` — машиночитний контракт сніпета.',
+        note: 'В output — лише `<span>`. Документація лишається в коді, а не в HTML. Тим і відрізняється від `{% comment %}`: коментар — текст для людини, `doc` — машиночитний контракт сніпета.',
       },
       { type: 'h', text: 'Патерни з реальних тем' },
       {
         type: 'code',
         lang: 'liquid',
-        title: 'Картка товару: один сніпет, різні контексти',
+        title: 'Картка product: один сніпет, різні контексти',
         code: `{% comment %} Сітка колекції {% endcomment %}
 {% for product in collection.products %}
   {% render 'card-product', card_product: product, show_vendor: settings.show_vendor %}
@@ -1512,19 +1512,19 @@ snippets/price.liquid            → {% render 'price' %}
         type: 'note',
         tone: 'shopify',
         title: 'Як це названо в Dawn',
-        text: 'Параметр картки в Dawn зветься `card_product`, а не `product` — і це не примха. Сніпет працює і на сторінці товару, де вже існує глобальний `product`; параметр з таким самим імʼям перекрив би його всередині сніпета і зробив би код двозначним. Те саме з `card_collection`. Загальне правило: **не називай параметр іменем глобального обʼєкта**.',
+        text: 'Параметр картки в Dawn зветься `card_product`, а не `product` — і це не примха. Сніпет працює і на сторінці product, де вже існує глобальний `product`; параметр з таким самим імʼям перекрив би його всередині сніпета і зробив би код двозначним. Те саме з `card_collection`. Загальне правило: **не називай параметр іменем глобального обʼєкта**.',
       },
       {
         type: 'note',
         tone: 'warn',
         title: 'Ціна виклику в циклі',
-        text: 'Сніпет у Shopify — це не безкоштовна вставка тексту: кожен `render` має власну область видимості й власний рендер. Сотня товарів × картка × вкладений сніпет ціни × сніпет іконки — і час рендера сторінки зростає помітно. Тому: форма `render … for` замість `for` із `render` усередині; важке обчислення (`where`, `map`, `sort`) виносять ДО циклу й передають готовий результат; іконки, що повторюються, віддають `<svg><use href="#icon-…">` замість сніпета на кожен виклик. Деталі — у [продуктивності](/docs/shopify/performance).',
+        text: 'Сніпет у Shopify — це не безкоштовна вставка тексту: кожен `render` має власний scope і власний рендер. Сотня product × картка × вкладений сніпет ціни × сніпет іконки — і час рендера сторінки зростає помітно. Тому: форма `render … for` замість `for` із `render` усередині; важке обчислення (`where`, `map`, `sort`) виносять ДО циклу й передають готовий результат; іконки, що повторюються, віддають `<svg><use href="#icon-…">` замість сніпета на кожен виклик. Деталі — на сторінці [performance](/docs/shopify/performance).',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «У чому різниця між render та include?»',
-        text: 'Питання-класика, його ставлять майже завжди. «`render` рендерить сніпет в ізольованій області видимості: усередину доходять лише глобальні обʼєкти й передані параметри, а зміни всередині назовні не виходять. `include` підключав сніпет у спільну область: він бачив усі змінні викликача й міг їх перезаписати. Shopify позначив `include` застарілим, бо це шкодить продуктивності й робить код непередбачуваним; усередині сніпета, підключеного через `render`, `include` навіть заборонений». Сильний фінал — сказати, що саме ізоляція дозволяє Shopify розбирати й кешувати сніпети незалежно.',
+        text: 'Питання-класика, його ставлять майже завжди. «`render` рендерить сніпет в ізольованому scope: усередину доходять лише глобальні обʼєкти й передані параметри, а зміни всередині назовні не виходять. `include` підключав сніпет у спільний scope: він бачив усі змінні викликача й міг їх перезаписати. Shopify позначив `include` deprecated, бо це шкодить performance і робить код непередбачуваним; усередині сніпета, підключеного через `render`, `include` навіть заборонений». Сильний фінал — сказати, що саме ізоляція дозволяє Shopify розбирати й кешувати сніпети незалежно.',
       },
       {
         type: 'note',
@@ -1535,7 +1535,7 @@ snippets/price.liquid            → {% render 'price' %}
       {
         type: 'note',
         tone: 'tip',
-        text: 'Сніпет може мати власні `{% stylesheet %}` і `{% javascript %}` — по одному на файл. Їхній вміст Shopify збирає в спільні бандли теми й віддає через `content_for_header`, а на місці вони не друкують нічого. Liquid усередині цих тегів **не виконується**: потрібні значення з налаштувань — виводь їх окремим `{% style %}` як CSS-змінні. Див. [асети](/docs/shopify/assets).',
+        text: 'Сніпет може мати власні `{% stylesheet %}` і `{% javascript %}` — по одному на файл. Їхній вміст Shopify збирає в спільні бандли теми й віддає через `content_for_header`, а на місці вони не виводять нічого. Liquid усередині цих тегів **не виконується**: потрібні значення з налаштувань — виводь їх окремим `{% style %}` як CSS-змінні. Див. [assets](/docs/shopify/assets).',
       },
     ],
   },
@@ -1544,7 +1544,7 @@ snippets/price.liquid            → {% render 'price' %}
   {
     slug: 'theme-settings',
     section: 'shopify',
-    title: 'Налаштування теми: settings_schema.json і обʼєкт settings',
+    title: 'Theme settings: settings_schema.json і обʼєкт settings',
     summary:
       'Два файли в `config/`: `settings_schema.json` описує, ЯКІ глобальні налаштування має тема, `settings_data.json` зберігає вибір мерчанта. У Liquid вони приходять глобальним обʼєктом `settings`.',
     officialUrl: 'https://shopify.dev/docs/storefronts/themes/architecture/config/settings-schema-json',
@@ -1552,7 +1552,7 @@ snippets/price.liquid            → {% render 'price' %}
     blocks: [
       {
         type: 'p',
-        text: 'Секція описує себе в `{% schema %}`, а тема цілком — у теці `config/`. Модель та сама: **схема каже, що можна налаштувати, дані зберігають те, що налаштували**. Схему пише розробник, дані веде редактор теми. Сюди кладуть те, що спільне для всього магазину: кольори, шрифти, ширину контейнера, радіуси, логотип, посилання на соцмережі, тексти кнопок, прапорці «показувати вендора», «показувати другу картинку на ховер».',
+        text: 'Секція описує себе в `{% schema %}`, а тема цілком — у теці `config/`: це і є theme settings. Модель та сама: **схема каже, що можна налаштувати, дані зберігають те, що налаштували**. Схему пише розробник, дані веде редактор теми. Сюди кладуть те, що спільне для всього магазину: кольори, шрифти, ширину контейнера, радіуси, логотип, посилання на соцмережі, тексти кнопок, прапорці «показувати вендора», «показувати другу картинку на ховер».',
       },
       {
         type: 'code',
@@ -1629,7 +1629,7 @@ snippets/price.liquid            → {% render 'price' %}
         rows: [
           ['Що це', 'опис полів: типи, підписи, дефолти', 'значення, які вибрав мерчант'],
           ['Хто редагує', 'розробник, руками', 'редактор теми — **перезаписує файл**'],
-          ['Ключ `current`', '—', 'поточні значення; може бути й просто імʼям пресета рядком'],
+          ['Ключ `current`', '—', 'поточні значення; може бути й просто імʼям пресета (string)'],
           ['Ключ `presets`', '—', 'стилі теми: готові набори значень, між якими мерчант перемикається'],
           ['Ключ `sections`', '—', 'налаштування **статичних** секцій — тих, що підключені тегом `section`'],
         ],
@@ -1638,7 +1638,7 @@ snippets/price.liquid            → {% render 'price' %}
         type: 'note',
         tone: 'warn',
         title: 'settings_data.json належить мерчанту',
-        text: 'Це той самий клас файлів, що й JSON-шаблони: задеплоїш свою локальну копію — зітреш усе, що мерчант наклацав, включно з логотипом і кольорами. Перед роботою `shopify theme pull`, у деплої з CI цей файл виключають. І ще: значення там лежать **за `id`**, а не за підписом.',
+        text: 'Це той самий клас файлів, що й JSON templates: задеплоїш свою локальну копію — зітреш усе, що мерчант наклацав, включно з логотипом і кольорами. Перед роботою `shopify theme pull`, у деплої з CI цей файл виключають. І ще: значення там лежать **за `id`**, а не за підписом.',
       },
       {
         type: 'note',
@@ -1662,13 +1662,13 @@ snippets/price.liquid            → {% render 'price' %}
 {% endif %}
 
 Неоголошене налаштування: [{{ settings.nope }}]`,
-        note: '`settings` — **глобальний** обʼєкт: він доступний у лейауті, шаблоні, секції, блоці й сніпеті, без жодної передачі. Звернення до неоголошеного ключа не падає, а віддає порожньо — тому одруківка в імені не викличе помилки, лише тихо зламає верстку.',
+        note: '`settings` — **глобальний** обʼєкт: він доступний у layout, template, секції, блоці й сніпеті, без жодної передачі. Звернення до неоголошеного ключа не падає, а віддає порожньо — тому одруківка в імені не викличе помилки, лише тихо зламає верстку.',
       },
       {
         type: 'note',
         tone: 'warn',
         title: 'settings ≠ section.settings',
-        text: 'Це два різні джерела, і їх постійно плутають. `settings.<id>` — глобальне налаштування теми з `config/settings_schema.json`, одне на весь магазин. `section.settings.<id>` — налаштування конкретної секції з її `{% schema %}`, своє в кожному екземплярі секції. `block.settings.<id>` — те саме для блока. Якщо в секції «нічого не застосовується», перше, що варто перевірити, — чи не написано там `settings.heading` замість `section.settings.heading`.',
+        text: 'Це два різні джерела, і їх постійно плутають. `settings.<id>` — глобальне значення з theme settings (`config/settings_schema.json`), одне на весь магазин. `section.settings.<id>` — налаштування конкретної секції з її `{% schema %}`, своє в кожному екземплярі секції. `block.settings.<id>` — те саме для блока. Якщо в секції «нічого не застосовується», перше, що варто перевірити, — чи не написано там `settings.heading` замість `section.settings.heading`.',
       },
       { type: 'h', text: 'Глобальне чи секційне: як вибрати' },
       {
@@ -1677,8 +1677,8 @@ snippets/price.liquid            → {% render 'price' %}
         rows: [
           ['Де описано', '`config/settings_schema.json`', '`{% schema %}` секції'],
           ['Скільки значень', 'одне на магазин', 'своє в кожній секції на кожній сторінці'],
-          ['Де в редакторі', 'вкладка «Налаштування теми»', 'панель самої секції'],
-          ['Типові мешканці', 'кольори, шрифти, ширина, радіуси, соцмережі, валюта, favicon', 'заголовок, картинка, товар, кількість колонок цієї сітки'],
+          ['Де в редакторі', 'вкладка Theme settings', 'панель самої секції'],
+          ['Типові мешканці', 'кольори, шрифти, ширина, радіуси, соцмережі, валюта, favicon', 'заголовок, картинка, product, кількість колонок цієї сітки'],
           ['Читається як', '«так виглядає вся тема»', '«так виглядає цей блок тут»'],
         ],
       },
@@ -1693,9 +1693,9 @@ snippets/price.liquid            → {% render 'price' %}
       },
       {
         type: 'table',
-        head: ['Тип', 'Навіщо в налаштуваннях теми'],
+        head: ['Тип', 'Навіщо в theme settings'],
         rows: [
-          ['`color`', 'Повертає обʼєкт `color`: друкується як hex, але має `.red`, `.alpha`, `.hue` — з нього будують похідні кольори.'],
+          ['`color`', 'Повертає обʼєкт `color`: рендериться як hex, але має `.red`, `.alpha`, `.hue` — з нього будують похідні кольори.'],
           ['`color_scheme_group`', 'Колірні схеми теми (світла, темна, акцентна). Оголошуються ТУТ, а секції потім лише обирають схему типом `color_scheme`.'],
           ['`font_picker`', 'Повертає обʼєкт `font` із `.family`, `.fallback_families`, `.weight`, `.style`. `default` обовʼязковий.'],
           ['`image_picker`', 'Логотип, favicon, картинка за замовчуванням. `default` не підтримує — завжди може бути порожнім.'],
@@ -1720,11 +1720,11 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
       { type: 'h', text: 'Налаштування → CSS-змінні' },
       {
         type: 'p',
-        text: 'Головний патерн сучасної теми: **Liquid не розмазує налаштування по стилях, а віддає їх CSS одним місцем**. У `layout/theme.liquid` тег `{% style %}` друкує `:root` із CSS-змінними, а весь CSS теми в `assets/` — статичний і кешований, бо оперує змінними, а не значеннями.',
+        text: 'Головний патерн сучасної теми: **Liquid не розмазує налаштування по стилях, а віддає їх CSS одним місцем**. У `layout/theme.liquid` тег `{% style %}` виводить `:root` із CSS-змінними, а весь CSS теми в `assets/` — статичний і кешований, бо оперує змінними, а не значеннями.',
       },
       {
         type: 'example',
-        title: ':root із налаштувань теми',
+        title: ':root із theme settings',
         data: { settings: { colors_accent: '#0e8f8b', colors_text: '#121212', page_width: 1400, card_radius: 12, show_vendor: true } },
         template: `{% style %}
   :root {
@@ -1740,7 +1740,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
         type: 'note',
         tone: 'shopify',
         title: 'Чому саме {% style %}, а не .css.liquid',
-        text: 'Колірні налаштування всередині `{% style %}` редактор теми оновлює **наживо**, без перезавантаження сторінки: мерчант тягне піпетку — колір міняється одразу. Альтернатива з `.liquid`-асетом такого не вміє і до того ж робить CSS-файл не кешованим. Тому правило: змінні — через `{% style %}` у лейауті, решта стилів — звичайним `.css` через `asset_url`. Див. [асети](/docs/shopify/assets).',
+        text: 'Колірні налаштування всередині `{% style %}` редактор теми оновлює **наживо**, без перезавантаження сторінки: мерчант тягне піпетку — колір міняється одразу. Альтернатива з `.liquid`-asset такого не вміє і до того ж робить CSS-файл не кешованим. Тому правило: змінні — через `{% style %}` у layout, решта стилів — звичайним `.css` через `asset_url`. Див. [assets](/docs/shopify/assets).',
       },
       {
         type: 'code',
@@ -1763,7 +1763,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
       },
       {
         type: 'p',
-        text: 'Фільтри `font_face`, `font_modify` і `font_url` пісочниця не емулює — тому блок вище статичний. Логіка така: `font_picker` дає обʼєкт шрифту, `font_modify` робить із нього іншу нарізку (жирну, курсивну), `font_face` друкує правило `@font-face` із CDN Shopify.',
+        text: 'Фільтри `font_face`, `font_modify` і `font_url` пісочниця не емулює — тому блок вище статичний. Логіка така: `font_picker` дає обʼєкт шрифту, `font_modify` робить із нього іншу нарізку (жирну, курсивну), `font_face` виводить правило `@font-face` із CDN Shopify.',
       },
       { type: 'h', text: 'theme_info' },
       {
@@ -1773,19 +1773,19 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
       {
         type: 'note',
         tone: 'tip',
-        text: 'У темах для продажу підписи не пишуть текстом, а посилаються на переклади редактора: `"name": "t:settings_schema.colors.name"`, `"label": "t:settings_schema.colors.settings.accent.label"`. Ключі лежать у `locales/*.schema.json`. Деталі — на сторінці [локалі](/docs/shopify/locales).',
+        text: 'У темах для продажу підписи не пишуть текстом, а посилаються на переклади редактора: `"name": "t:settings_schema.colors.name"`, `"label": "t:settings_schema.colors.settings.accent.label"`. Ключі лежать у `locales/*.schema.json`. Деталі — на сторінці [locales](/docs/shopify/locales).',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Чим settings відрізняється від section.settings?»',
-        text: '«`settings` — глобальні налаштування теми: описані в `config/settings_schema.json`, значення лежать у `settings_data.json`, одне на весь магазин, доступні з будь-якого файла без передачі. `section.settings` — налаштування конкретної секції з її `{% schema %}`: своє значення в кожному екземплярі секції на кожній сторінці, зберігається в JSON-шаблоні або групі секцій». Сильний штрих — додати критерій вибору: якщо мерчант захоче різних значень у різних місцях, налаштування має бути секційним.',
+        text: '«`settings` — це theme settings: описані в `config/settings_schema.json`, значення лежать у `settings_data.json`, одне на весь магазин, доступні з будь-якого файла без передачі. `section.settings` — налаштування конкретної секції з її `{% schema %}`: своє значення в кожному екземплярі секції на кожній сторінці, зберігається в JSON template або section group». Сильний штрих — додати критерій вибору: якщо мерчант захоче різних значень у різних місцях, налаштування має бути секційним.',
       },
       {
         type: 'note',
         tone: 'interview',
-        title: 'На співбесіді: «Як налаштування теми доїжджають до CSS?»',
-        text: 'Через CSS-змінні. У `layout/theme.liquid` стоїть `{% style %}`, який друкує `:root` зі значеннями з `settings`; статичні файли в `assets/` користуються лише `var(--…)`. Так CSS лишається кешованим, а редактор теми оновлює кольори наживо, без перезавантаження. Альтернативу з `.css.liquid` я не беру: вона ламає кеш і не дає live-превʼю. Якщо спитають про шрифти — `font_picker` віддає обʼєкт, `font_face` друкує `@font-face`, а в змінні йдуть `family`, `weight`, `style`.',
+        title: 'На співбесіді: «Як theme settings доїжджають до CSS?»',
+        text: 'Через CSS-змінні. У `layout/theme.liquid` стоїть `{% style %}`, який виводить `:root` зі значеннями з `settings`; статичні файли в `assets/` користуються лише `var(--…)`. Так CSS лишається кешованим, а редактор теми оновлює кольори наживо, без перезавантаження. Альтернативу з `.css.liquid` я не беру: вона ламає кеш і не дає live-превʼю. Якщо спитають про шрифти — `font_picker` віддає обʼєкт, `font_face` виводить `@font-face`, а в змінні йдуть `family`, `weight`, `style`.',
       },
       {
         type: 'note',
@@ -1800,7 +1800,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
   {
     slug: 'locales',
     section: 'shopify',
-    title: 'Локалі: locales/*.json і фільтр t',
+    title: 'Locales: locales/*.json і фільтр t',
     summary:
       'Тексти теми не пишуть у розмітці — їх кладуть у `locales/*.json` і дістають фільтром `t` за ключем. Окремо живуть переклади вітрини й переклади редактора теми (`*.schema.json`).',
     officialUrl: 'https://shopify.dev/docs/storefronts/themes/architecture/locales',
@@ -1808,7 +1808,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
     blocks: [
       {
         type: 'p',
-        text: 'Жоден текст у темі не має бути зашитий у розмітку — ні «Додати в кошик», ні «Немає в наявності», ні alt картинки. Усе це ключі, а значення лежать у теці `locales/`. Причина не лише в перекладі на інші мови: мерчант може змінити будь-який рядок теми прямо в адмінці, не чіпаючи код, — і саме локалі роблять це можливим.',
+        text: 'Жоден текст у темі не має бути зашитий у розмітку — ні «Додати в кошик», ні «Немає в наявності», ні alt картинки. Усе це ключі, а значення лежать у теці `locales/`. Причина не лише в перекладі на інші мови: мерчант може змінити будь-який текст теми прямо в адмінці, не чіпаючи код, — і саме locale-файли роблять це можливим.',
       },
       {
         type: 'code',
@@ -1849,7 +1849,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
         template: `{{ 'products.product.add_to_cart' | t }}
 {{ 'products.product.sold_out' | t }}
 {{ 'general.search.placeholder' | t }}`,
-        note: 'Ключ — це шлях по вкладеному JSON через крапку. У пісочниці словник кладеться в змінну `locales`, а поточна локаль береться з `request.locale.iso_code`; у Shopify те саме робить платформа, читаючи файл із `locales/`. Фільтр має довге імʼя-синонім `translate` — у темах пишуть `t`.',
+        note: 'Ключ — це шлях по вкладеному JSON через крапку. У пісочниці словник кладеться в змінну `locales`, а поточна locale береться з `request.locale.iso_code`; у Shopify те саме робить платформа, читаючи файл із `locales/`. Фільтр має довге імʼя-синонім `translate` — у темах пишуть `t`.',
       },
       {
         type: 'code',
@@ -1878,7 +1878,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
       },
       {
         type: 'p',
-        text: 'Структуру вкладеності вигадує розробник, але вона не довільна: Shopify очікує впізнавані верхні групи (`general`, `products`, `collections`, `cart`, `customer`, `blogs`, `sections`, `accessibility`, `onboarding`), і саме за ними адмінка групує рядки в редакторі мови. Візьми структуру Dawn за зразок — мерчанту буде звично.',
+        text: 'Структуру вкладеності вигадує розробник, але вона не довільна: Shopify очікує впізнавані верхні групи (`general`, `products`, `collections`, `cart`, `customer`, `blogs`, `sections`, `accessibility`, `onboarding`), і саме за ними адмінка групує переклади в редакторі мови. Візьми структуру Dawn за зразок — мерчанту буде звично.',
       },
       {
         type: 'example',
@@ -1889,13 +1889,13 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
         },
         template: `{{ 'general.search' | t }}
 {{ 'general.searhc' | t }}`,
-        note: 'Одруківка в ключі не ламає рендер: на місце тексту друкується маркер `translation missing` із локаллю й ключем. Поведінка милосердна до магазину — і підступна до розробника: помилку побачить покупець, а не твоя консоль.',
+        note: 'Одруківка в ключі не ламає рендер: на місце тексту виводиться маркер `translation missing` із locale і ключем. Поведінка милосердна до магазину — і підступна до розробника: помилку побачить покупець, а не твоя консоль.',
       },
       {
         type: 'note',
         tone: 'warn',
         title: 'translation missing ловлять до релізу, а не після',
-        text: 'Маркер проліземо в прод легко: ключ є в `en.default.json`, а в `uk.json` його забули додати — і англомовна вітрина ціла, а українська рясніє `translation missing`. Ловиться двома способами: `shopify theme check` має правило на відсутні ключі перекладу, і ще — перегляд магазину в кожній опублікованій мові перед релізом. Не покладайся на те, що «в дефолтній локалі ж є»: фолбека на дефолтну локаль для відсутнього ключа очікувати не варто.',
+        text: 'Маркер проліземо в прод легко: ключ є в `en.default.json`, а в `uk.json` його забули додати — і англомовна вітрина ціла, а українська рясніє `translation missing`. Ловиться двома способами: `shopify theme check` має правило на відсутні ключі перекладу, і ще — перегляд магазину в кожній опублікованій мові перед релізом. Не покладайся на те, що «в дефолтній locale ж є»: фолбека на дефолтну locale для відсутнього ключа очікувати не варто.',
       },
       { type: 'h', text: 'Змінні в перекладі' },
       {
@@ -1911,7 +1911,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
         },
         template: `{{ 'general.greeting' | t: name: customer.first_name }}
 {{ 'products.from_price' | t: price: '649,00 ₴', volume: '250 мл' }}`,
-        note: 'Плейсхолдери в значенні виглядають як Liquid-вивід, але це **не Liquid**: підставляються виключно параметри, передані фільтру `t`. Напишеш у перекладі `{{ product.title }}` — отримаєш порожньо, бо жодного `product` у фільтра немає.',
+        note: 'Плейсхолдери в значенні виглядають як output Liquid, але це **не Liquid**: підставляються виключно параметри, передані фільтру `t`. Напишеш у перекладі `{{ product.title }}` — отримаєш порожньо, бо жодного `product` у фільтра немає.',
       },
       {
         type: 'note',
@@ -1922,7 +1922,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
       { type: 'h', text: 'Множина' },
       {
         type: 'p',
-        text: 'Якщо значення ключа — не рядок, а обʼєкт із формами, `t` обере потрібну за параметром `count`. Форми називаються за категоріями CLDR: `zero`, `one`, `two`, `few`, `many`, `other`. Скільки з них реально працює — залежить від мови: англійській вистачає `one` і `other`, українській потрібні щонайменше `one`, `few`, `many`.',
+        text: 'Якщо значення ключа — не string, а обʼєкт із формами, `t` обере потрібну за параметром `count`. Форми називаються за категоріями CLDR: `zero`, `one`, `two`, `few`, `many`, `other`. Скільки з них реально працює — залежить від мови: англійській вистачає `one` і `other`, українській потрібні щонайменше `one`, `few`, `many`.',
       },
       {
         type: 'table',
@@ -1931,7 +1931,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
           ['1, 21, 31…', '1 товар', '`one`'],
           ['2–4, 22–24…', '3 товари', '`few`'],
           ['0, 5–20, 25–30…', '7 товарів', '`many`'],
-          ['дробові (1,5)', '1,5 товару', '`other`'],
+          ['нецілі (1,5)', '1,5 товару', '`other`'],
         ],
       },
       {
@@ -1954,13 +1954,13 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
 3 → {{ 'cart.item_count' | t: count: 3 }}
 7 → {{ 'cart.item_count' | t: count: 7 }}`,
         shopifyOutput: '1 → 1 товар\n3 → 3 товари\n7 → 7 товарів',
-        note: '**Тут пісочниця спрощує.** Вона знає лише `one` і `other`, тому для 3 і 7 бере `other`. Справжній Shopify застосовує правила CLDR обраної локалі й дає `few` та `many` — це й показано в рядку «У Shopify». Висновок для роботи: форми пиши всі, які має мова, і не тестуй множину на англійській — там різниця між правильним і неправильним словником невидима.',
+        note: '**Тут пісочниця спрощує.** Вона знає лише `one` і `other`, тому для 3 і 7 бере `other`. Справжній Shopify застосовує правила CLDR обраної locale й дає `few` та `many` — це й показано в рядку «У Shopify». Висновок для роботи: форми пиши всі, які має мова, і не тестуй множину на англійській — там різниця між правильним і неправильним словником невидима.',
       },
       {
         type: 'note',
         tone: 'warn',
         title: 'pluralize — не для української',
-        text: 'Фільтр `pluralize` бере рівно два варіанти й застосовує **англійські** правила: `{{ n | pluralize: \'item\', \'items\' }}`. Для української, польської чи російської він структурно неспроможний — трьох форм у нього просто немає. Офіційна довідка прямо попереджає не використовувати його на неанглійських рядках. Множина в темі — це `t` із `count`, і крапка.',
+        text: 'Фільтр `pluralize` бере рівно два варіанти й застосовує **англійські** правила: `{{ n | pluralize: \'item\', \'items\' }}`. Для української, польської чи російської він структурно неспроможний — трьох форм у нього просто немає. Офіційна довідка прямо попереджає не використовувати його на текстах не англійською. Множина в темі — це `t` із `count`, і крапка.',
       },
       { type: 'h', text: 'Переклади редактора теми: *.schema.json' },
       {
@@ -2048,24 +2048,24 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
         type: 'note',
         tone: 'shopify',
         title: 'Мова живе в адресі',
-        text: 'Додаткові мови Shopify віддає з префіксом: `/en/products/keratin-shampoo`. Звідси два наслідки для коду. Перший: **ніколи не склеюй адреси руками** — бери `product.url`, `routes.*`, `link.url`, вони вже враховують поточну локаль. Другий: `lang.root_url` — це корінь мови, і перемикач мов, зроблений посиланнями замість форми, має вести саме на нього. Дефолтна локаль префікса не має.',
+        text: 'Додаткові мови Shopify віддає з префіксом: `/en/products/keratin-shampoo`. Звідси два наслідки для коду. Перший: **ніколи не склеюй адреси руками** — бери `product.url`, `routes.*`, `link.url`, вони вже враховують поточну locale. Другий: `lang.root_url` — це корінь мови, і перемикач мов, зроблений посиланнями замість форми, має вести саме на нього. Дефолтна locale префікса не має.',
       },
       {
         type: 'note',
         tone: 'tip',
-        text: 'У locale-файлі вітрини можна оголосити ще й **власні формати дат**, а потім кликати їх за імʼям: `{{ article.published_at | date: format: \'month_day_year\' }}`. Це зручніше, ніж тягати рядок `%d.%m.%Y` по всіх шаблонах, і дає різний формат дати в різних мовах — те, заради чого локалі взагалі існують.',
+        text: 'У locale-файлі вітрини можна оголосити ще й **власні формати дат**, а потім кликати їх за імʼям: `{{ article.published_at | date: format: \'month_day_year\' }}`. Це зручніше, ніж тягати string `%d.%m.%Y` по всіх шаблонах, і дає різний формат дати в різних мовах — те, заради чого locale взагалі існують.',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Як зробити тему багатомовною?»',
-        text: '«Жодного тексту в розмітці: усі рядки — ключі в `locales/<код>.json`, у шаблоні — фільтр `t`. Один ключ на цілу фразу, змінні всередині передаю параметрами `t`, множину — обʼєктом форм із `count`, бо в кожної мови свій набір. Підписи редактора теми перекладаю окремо — у `*.schema.json` через префікс `t:` у схемі. Адреси беру з `routes` і властивостей обʼєктів, бо Shopify додає мовний префікс. Перемикач мов — форма `localization`».',
+        text: '«Жодного тексту в розмітці: усі тексти — ключі в `locales/<код>.json`, у шаблоні — фільтр `t`. Один ключ на цілу фразу, змінні всередині передаю параметрами `t`, множину — обʼєктом форм із `count`, бо в кожної мови свій набір. Підписи редактора теми перекладаю окремо — у `*.schema.json` через префікс `t:` у схемі. Адреси беру з `routes` і властивостей обʼєктів, бо Shopify додає мовний префікс. Перемикач мов — форма `localization`».',
       },
       {
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «Чим *.json відрізняється від *.schema.json?»',
-        text: 'Перший — тексти вітрини, які бачить покупець; дістаю фільтром `t`, мерчант може правити їх в адмінці. Другий — тексти редактора теми: назви секцій, підписи налаштувань, опції; вони живуть у схемах і підключаються префіксом `t:` прямо в JSON. Два світи не перетинаються: `t:` у розмітці не працює, а фільтр `t` не бачить ключів схеми. Дефолтну локаль у кожному з двох типів позначає суфікс `.default` в імені файла, і така вона одна.',
+        text: 'Перший — тексти вітрини, які бачить покупець; дістаю фільтром `t`, мерчант може правити їх в адмінці. Другий — тексти редактора теми: назви секцій, підписи налаштувань, опції; вони живуть у схемах і підключаються префіксом `t:` прямо в JSON. Два світи не перетинаються: `t:` у розмітці не працює, а фільтр `t` не бачить ключів схеми. Дефолтну locale у кожному з двох типів позначає суфікс `.default` в імені файла, і така вона одна.',
       },
     ],
   },
@@ -2074,7 +2074,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
   {
     slug: 'assets',
     section: 'shopify',
-    title: 'Асети: assets/, asset_url і підключення CSS та JS',
+    title: 'Assets: assets/, asset_url і підключення CSS та JS',
     summary:
       'Тека `assets/` — уся статика теми. Адресу на CDN дає фільтр `asset_url`, теги підключення — `stylesheet_tag`, `script_tag`, `preload_tag`. Окремо живуть `{% stylesheet %}`, `{% javascript %}` і `{% style %}`.',
     officialUrl: 'https://shopify.dev/docs/storefronts/themes/architecture/assets',
@@ -2109,7 +2109,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
 {{ 'brand.svg' | asset_url }}
 {{ 'logo.png' | file_url }}
 {{ 'option_selection.js' | shopify_asset_url }}`,
-        note: 'Адреси **протокол-відносні** (починаються з `//`) і несуть `?v=` — про версію нижче. Зверни увагу на різні шляхи: асет теми лежить у `…/t/<номер теми>/assets/`, а файл із адмінки — у `…/files/`. Переплутаєш фільтр — отримаєш адресу, яка нічого не віддасть.',
+        note: 'Адреси **протокол-відносні** (починаються з `//`) і несуть `?v=` — про версію нижче. Зверни увагу на різні шляхи: asset теми лежить у `…/t/<номер теми>/assets/`, а файл із адмінки — у `…/files/`. Переплутаєш фільтр — отримаєш адресу, яка нічого не віддасть.',
       },
       {
         type: 'table',
@@ -2119,7 +2119,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
           ['`file_url`', 'імʼя файла з адмінки (Content → Files)', 'те, що завантажив мерчант: PDF інструкції, банер, своє фото'],
           ['`global_asset_url`', 'імʼя файла з бібліотеки Shopify', 'службові бібліотеки Shopify'],
           ['`shopify_asset_url`', 'імʼя файла з бібліотеки Shopify', 'скрипти вітрини Shopify, напр. `option_selection.js`'],
-          ['`image_url`', 'обʼєкт зображення (товару, колекції, `image_picker`)', 'фото товарів і контенту — із розмірами й кропом. Див. [зображення](/docs/shopify/images)'],
+          ['`image_url`', 'обʼєкт зображення (product, collection, `image_picker`)', 'фото product і контенту — із розмірами й кропом. Див. [зображення](/docs/shopify/images)'],
           ['`asset_img_url`', 'імʼя картинки з `assets/`', 'старіший спосіб для картинок теми — у новому коді беруть `image_url`'],
         ],
       },
@@ -2160,7 +2160,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
       },
       {
         type: 'example',
-        title: 'stylesheet і javascript на місці не друкують нічого',
+        title: 'stylesheet і javascript на місці не виводять нічого',
         template: `[{% stylesheet %}
   .card { border-radius: var(--card-radius); }
 {% endstylesheet %}][{% javascript %}
@@ -2172,7 +2172,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
         type: 'note',
         tone: 'warn',
         title: 'Усередині stylesheet і javascript Liquid не працює',
-        text: 'Це не «спрацює, але погано» — вміст просто не рендериться як Liquid, і `{{ section.settings.color }}` поїде в CSS текстом, ламаючи правило. Офіційна довідка окремо попереджає, що Liquid усередині цих тегів дає синтаксичні помилки. Потрібне значення з налаштувань — віддай його окремим `{% style %}` як CSS-змінну, а в бандлі користуйся `var(--…)`. Той самий прийом, що й для [налаштувань теми](/docs/shopify/theme-settings).',
+        text: 'Це не «спрацює, але погано» — вміст просто не рендериться як Liquid, і `{{ section.settings.color }}` поїде в CSS текстом, ламаючи правило. Офіційна довідка окремо попереджає, що Liquid усередині цих тегів дає синтаксичні помилки. Потрібне значення з налаштувань — віддай його окремим `{% style %}` як CSS-змінну, а в бандлі користуйся `var(--…)`. Той самий прийом, що й для [theme settings](/docs/shopify/theme-settings).',
       },
       {
         type: 'example',
@@ -2195,7 +2195,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
 {% endstylesheet %}`,
         note: 'Динаміка — мінімальний інлайновий шматок, привʼязаний до `section.id`. Статика — кешований бандл, однаковий для всіх сторінок і всіх мерчантів. Це і є канонічний поділ: **Liquid керує змінними, CSS керує виглядом**.',
       },
-      { type: 'h', text: '.liquid-асети: чому їх уникають' },
+      { type: 'h', text: '.liquid-assets: чому їх уникають' },
       {
         type: 'code',
         lang: 'liquid',
@@ -2226,27 +2226,27 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
         type: 'note',
         tone: 'warn',
         title: 'Sass у темах — спадок',
-        text: 'Асети `.scss.liquid` трапляються в старих темах, бо колись Shopify компілював Sass на своєму боці. У новій темі на це не розраховують: препроцесор ганяють локально й кладуть у `assets/` уже готовий `.css`. Побачив `.scss.liquid` у проєкті — це маркер віку теми, а не стилю роботи.',
+        text: 'Assets `.scss.liquid` трапляються в старих темах, бо колись Shopify компілював Sass на своєму боці. У новій темі на це не розраховують: препроцесор ганяють локально й кладуть у `assets/` уже готовий `.css`. Побачив `.scss.liquid` у проєкті — це маркер віку теми, а не стилю роботи.',
       },
       { type: 'h', text: 'CDN і версіонування' },
       {
         type: 'p',
-        text: 'Асети віддає CDN Shopify — розподілений, із довгим кешем. Щоб довгий кеш не став пасткою, `asset_url` дописує до адреси параметр `?v=…`: змінився файл — змінилось значення, змінилась адреса, браузер качає заново. Тому cache-busting у темі робити **не треба** і не можна ламати: дописувати свій `?v=` чи чистити чужий — значить або назавжди зафіксувати стару версію, або щоразу скидати кеш.',
+        text: 'Assets віддає CDN Shopify — розподілений, із довгим кешем. Щоб довгий кеш не став пасткою, `asset_url` дописує до адреси параметр `?v=…`: змінився файл — змінилось значення, змінилась адреса, браузер качає заново. Тому cache-busting у темі робити **не треба** і не можна ламати: дописувати свій `?v=` чи чистити чужий — значить або назавжди зафіксувати стару версію, або щоразу скидати кеш.',
       },
       {
         type: 'p',
-        text: 'Адреси протокол-відносні (`//cdn.shopify.com/…`) — браузер підставить той самий протокол, що й у сторінки. І ще одне правило того ж роду: **не зашивай домен CDN руками**. Він може змінитись, у нього своя структура шляхів із номером теми, а превʼю й публікована тема — це різні номери. Єдиний правильний спосіб дістати адресу асета — фільтр.',
+        text: 'Адреси протокол-відносні (`//cdn.shopify.com/…`) — браузер підставить той самий протокол, що й у сторінки. І ще одне правило того ж роду: **не зашивай домен CDN руками**. Він може змінитись, у нього своя структура шляхів із номером теми, а превʼю й публікована тема — це різні номери. Єдиний правильний спосіб дістати адресу asset — фільтр.',
       },
       {
         type: 'note',
         tone: 'shopify',
         title: 'Як це виглядає в Dawn',
-        text: 'Dawn ріже CSS на дрібні файли з говорильними префіксами: `base.css` у лейауті, `component-*.css` — під компоненти, `section-*.css` — під секції. Кожна секція підключає лише свої файли, тож сторінка не тягне стилі того, чого на ній немає. Скрипти підключені вручну з `defer="defer"`, а не через `script_tag`. Шрифти йдуть через `font_face` із CDN Shopify, і прелоадиться з них дуже небагато.',
+        text: 'Dawn ріже CSS на дрібні файли з говорильними префіксами: `base.css` у layout, `component-*.css` — під компоненти, `section-*.css` — під секції. Кожна секція підключає лише свої файли, тож сторінка не тягне стилі того, чого на ній немає. Скрипти підключені вручну з `defer="defer"`, а не через `script_tag`. Шрифти йдуть через `font_face` із CDN Shopify, і прелоадиться з них дуже небагато.',
       },
       {
         type: 'note',
         tone: 'tip',
-        text: 'Фото товарів і контенту в `assets/` не кладуть — вони живуть у Shopify як обʼєкти зображень, і для них є `image_url` із `width`, `height`, `crop`, `format` та `quality`. Асет — це графіка **інтерфейсу**: іконка, лого-заглушка, патерн фону. Деталі — на сторінці [зображення](/docs/shopify/images).',
+        text: 'Фото product і контенту в `assets/` не кладуть — вони живуть у Shopify як обʼєкти зображень, і для них є `image_url` із `width`, `height`, `crop`, `format` та `quality`. Asset — це графіка **інтерфейсу**: іконка, лого-заглушка, патерн фону. Деталі — на сторінці [зображення](/docs/shopify/images).',
       },
       {
         type: 'note',
@@ -2258,7 +2258,7 @@ checkbox + allow_false → [{{ settings.flag | default: true, allow_false: true 
         type: 'note',
         tone: 'interview',
         title: 'На співбесіді: «У чому різниця між {% stylesheet %} і {% style %}?»',
-        text: 'Класична пара «на уважність». `{% stylesheet %}` — це CSS секції, блока чи сніпета, який Shopify збирає у спільний бандл теми й віддає через `content_for_header`; на місці він не друкує нічого, і Liquid усередині **не виконується**, тег один на файл. `{% style %}` — навпаки: друкує інлайновий `<style data-shopify>` прямо тут, і Liquid у ньому працює. Тому все динамічне — у `{% style %}`, зазвичай як CSS-змінні під `#shopify-section-{{ section.id }}`, а статика — у бандлі або окремим файлом з `assets/`.',
+        text: 'Класична пара «на уважність». `{% stylesheet %}` — це CSS секції, блока чи сніпета, який Shopify збирає у спільний бандл теми й віддає через `content_for_header`; на місці він не виводить нічого, і Liquid усередині **не виконується**, тег один на файл. `{% style %}` — навпаки: виводить інлайновий `<style data-shopify>` прямо тут, і Liquid у ньому працює. Тому все динамічне — у `{% style %}`, зазвичай як CSS-змінні під `#shopify-section-{{ section.id }}`, а статика — у бандлі або окремим файлом з `assets/`.',
       },
     ],
   },

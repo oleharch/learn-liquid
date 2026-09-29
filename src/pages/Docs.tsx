@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
-import { docs, docsBySection, findDoc, SECTION_LABELS } from '@/content'
+import { ArrowLeft, ArrowRight, ExternalLink, GraduationCap } from 'lucide-react'
+import { docs, docsBySection, findDoc, lessonsForDoc, resolveRef, SECTION_LABELS } from '@/content'
 import type { DocSection } from '@/content/types'
 import { Blocks, headingsOf } from '@/components/Blocks'
 import { InlineMd } from '@/components/InlineMd'
@@ -20,7 +20,7 @@ export function DocsIndex({ sections = ['basics', 'tags', 'filters'] as DocSecti
       {shopify && (
         <Link to="/shopify/reference" className="refbanner">
           <strong>Повний індекс Shopify</strong>
-          <span>31 тег · 154 фільтри · 142 обʼєкти з усіма властивостями — пошук за імʼям, позначки застарілого</span>
+          <span>31 тег · 154 фільтри · 142 обʼєкти з усіма властивостями — пошук за імʼям, позначки deprecated</span>
           <ArrowRight size={18} />
         </Link>
       )}
@@ -76,10 +76,34 @@ export function DocPageView() {
       </div>
 
       <footer className="lessonfoot">
-        <div className="lessonfoot__links">
-          {page.related?.map((r) => <Link key={r} to={`/docs/${r}`} className="chip">{r.split('/')[1]}</Link>)}
-          {page.officialUrl && <a className="chip" href={page.officialUrl} target="_blank" rel="noreferrer">Офіційна документація <ExternalLink size={13} /></a>}
-        </div>
+        {!!page.related?.length && (
+          <div className="lessonfoot__group">
+            <p className="lessonfoot__label">Дивись також</p>
+            <div className="lessonfoot__links">
+              {page.related.map((r) => {
+                const d = resolveRef(r)
+                return d
+                  ? <Link key={r} to={`/docs/${r}`} className={`chip chip--titled${d.section === 'filters' ? ' is-mono' : ''}`}><span className="chip__k">{SECTION_LABELS[d.section]}</span> {d.title}</Link>
+                  : <Link key={r} to={`/docs/${r}`} className="chip">{r.split('/')[1]}</Link>
+              })}
+            </div>
+          </div>
+        )}
+        {lessonsForDoc(page.section, page.slug).length > 0 && (
+          <div className="lessonfoot__group">
+            <p className="lessonfoot__label">Де це в курсі</p>
+            <div className="lessonfoot__links">
+              {lessonsForDoc(page.section, page.slug).map((l) => (
+                <Link key={l.id} to={`/learn/${l.id}`} className="chip chip--titled"><GraduationCap size={13} aria-hidden /> <span className="chip__k">Урок {l.id.slice(1)}</span> {l.title}</Link>
+              ))}
+            </div>
+          </div>
+        )}
+        {page.officialUrl && (
+          <div className="lessonfoot__links">
+            <a className="chip" href={page.officialUrl} target="_blank" rel="noreferrer">Офіційна документація <ExternalLink size={13} /></a>
+          </div>
+        )}
         <div className="pager">
           {prev ? <Link to={`/docs/${prev.section}/${prev.slug}`} className="pager__link"><ArrowLeft size={16} /> {prev.title}</Link> : <span />}
           {next ? <Link to={`/docs/${next.section}/${next.slug}`} className="pager__link pager__link--next">{next.title} <ArrowRight size={16} /></Link> : <span />}

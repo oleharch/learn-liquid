@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { ChevronDown, Eye, Shuffle, Target, Timer } from 'lucide-react'
-import { interview } from '@/content'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { ArrowRight, ChevronDown, Eye, GraduationCap, Shuffle, Target, Timer } from 'lucide-react'
+import { findLesson, interview, lessonsForTopic, resolveRef, SECTION_LABELS } from '@/content'
 import type { InterviewLevel, InterviewQA, InterviewTopic } from '@/content/types'
 import { Blocks } from '@/components/Blocks'
 import { InlineMd } from '@/components/InlineMd'
@@ -9,8 +9,8 @@ import { progress, useProgress, type Grade, type Progress } from '@/lib/store'
 
 const TOPICS: Record<InterviewTopic, string> = {
   basics: 'Основи', types: 'Типи', operators: 'Оператори', variables: 'Змінні', 'control-flow': 'Умови', iteration: 'Цикли',
-  filters: 'Фільтри', whitespace: 'Пробіли', snippets: 'Сніпети', objects: 'Обʼєкти Shopify', architecture: 'Архітектура теми',
-  sections: 'Секції і схема', performance: 'Продуктивність', security: 'Безпека', debugging: 'Налагодження', practical: 'Практичні задачі',
+  filters: 'Фільтри', whitespace: 'Whitespace', snippets: 'Сніпети', objects: 'Обʼєкти Shopify', architecture: 'Архітектура теми',
+  sections: 'Секції і схема', performance: 'Performance', security: 'Безпека', debugging: 'Debugging', practical: 'Практичні задачі',
 }
 const LEVELS: Record<InterviewLevel, string> = { junior: 'Junior', middle: 'Middle', senior: 'Senior' }
 const GRADES: { id: Grade; label: string }[] = [
@@ -40,10 +40,54 @@ function Answer({ qa }: { qa: InterviewQA }) {
       <Blocks blocks={qa.blocks} />
       {!!qa.followUps?.length && (
         <div className="answer__follow">
-          <p className="answer__label">Що спитають далі</p>
-          <ul>{qa.followUps.map((f, i) => <li key={i}>{f}</li>)}</ul>
+          <p className="answer__label">Що спитають далі — розгорни, щоб звірити відповідь</p>
+          <div className="follow">
+            {qa.followUps.map((f, i) => (
+              <details key={i} className="follow__item">
+                <summary><span><InlineMd text={f.q} /></span></summary>
+                <div className="follow__body">
+                  <p><InlineMd text={f.a} /></p>
+                  {f.to && <FollowLink to={f.to} />}
+                </div>
+              </details>
+            ))}
+          </div>
         </div>
       )}
+      <AnswerLessons topic={qa.topic} />
+    </div>
+  )
+}
+
+/** Підпис для посилання «довчити»: назва сторінки довідника, уроку чи питання. */
+function FollowLink({ to }: { to: string }) {
+  const doc = to.startsWith('/docs/') ? resolveRef(to.slice('/docs/'.length)) : undefined
+  const lesson = to.startsWith('/learn/') ? findLesson(to.slice('/learn/'.length)) : undefined
+  const qid = /^\/interview\?q=([\w-]+)$/.exec(to)?.[1]
+  const other = qid ? interview.find((x) => x.id === qid) : undefined
+  return (
+    <Link to={to} className="chip chip--titled">
+      {doc ? <><span className="chip__k">{SECTION_LABELS[doc.section]}</span> {doc.title}</>
+        : lesson ? <><GraduationCap size={13} aria-hidden /> <span className="chip__k">Урок {lesson.id.slice(1)}</span> {lesson.title}</>
+        : other ? <><span className="chip__k">Питання</span> <InlineMd text={other.q} /></>
+        : 'Докладніше'}
+      <ArrowRight size={13} aria-hidden />
+    </Link>
+  )
+}
+
+/** Куди йти, щоб довчити тему: уроки курсу, що її закривають. */
+function AnswerLessons({ topic }: { topic: InterviewTopic }) {
+  const list = lessonsForTopic(topic)
+  if (!list.length) return null
+  return (
+    <div className="answer__lessons">
+      <p className="answer__label">Довчити в курсі</p>
+      <div className="lessonfoot__links">
+        {list.map((l) => (
+          <Link key={l.id} to={`/learn/${l.id}`} className="chip chip--titled"><GraduationCap size={13} aria-hidden /> <span className="chip__k">Урок {l.id.slice(1)}</span> {l.title}</Link>
+        ))}
+      </div>
     </div>
   )
 }
@@ -90,7 +134,7 @@ function Trainer({ pool, mock, onExit }: { pool: InterviewQA[]; mock: boolean; o
         <span className={`trainer__time${seconds > 120 ? ' is-over' : ''}`}><Timer size={14} /> {mm}</span>
         <button className="btn btn--ghost" onClick={onExit}>Вийти</button>
       </header>
-      <h2 className="trainer__q">{qa.q}</h2>
+      <h2 className="trainer__q"><InlineMd text={qa.q} /></h2>
       {!shown ? (
         <div className="trainer__think">
           <p className="muted">Спершу відповідай уголос — так, як відповідав би інтервʼюеру. Потім звір.</p>
@@ -123,6 +167,23 @@ export function Interview() {
     const id = params.get('q')
     if (id) { setOpen(id); requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start' })) }
   }, [params])
+
+  // Акордеон: коли одне питання згортається, а інше розгортається, сторінка
+  // зсувається на висоту згорнутої відповіді — і клікнутий рядок їде за екран.
+  // Тому запамʼятовуємо, де рядок був на екрані до кліку, і після перемальовки
+  // повертаємо його на те саме місце.
+  const anchor = useRef<{ id: string; top: number } | null>(null)
+  const toggle = (id: string) => {
+    anchor.current = { id, top: document.getElementById(id)?.getBoundingClientRect().top ?? 0 }
+    setOpen((cur) => (cur === id ? null : id))
+  }
+  useLayoutEffect(() => {
+    const a = anchor.current
+    if (!a) return
+    anchor.current = null
+    const el = document.getElementById(a.id)
+    if (el) window.scrollBy({ top: el.getBoundingClientRect().top - a.top, behavior: 'instant' })
+  }, [open])
 
   const update = (key: string, value: string) => {
     const next = new URLSearchParams(params)
@@ -192,9 +253,9 @@ export function Interview() {
           const g = p.cards[qa.id]?.grade
           return (
             <li key={qa.id} id={qa.id} className={`qa${isOpen ? ' qa--open' : ''}`}>
-              <button className="qa__row" onClick={() => setOpen(isOpen ? null : qa.id)} aria-expanded={isOpen}>
+              <button className="qa__row" onClick={() => toggle(qa.id)} aria-expanded={isOpen}>
                 <span className={`qa__dot qa__dot--${g ?? 'new'}`} aria-label={g ? GRADES.find((x) => x.id === g)!.label : 'ще не відповідав'} />
-                <span className="qa__q">{qa.q}</span>
+                <span className="qa__q"><InlineMd text={qa.q} /></span>
                 <span className="qa__tags"><span className="flag">{TOPICS[qa.topic]}</span><span className={`flag flag--${qa.level}`}>{LEVELS[qa.level]}</span></span>
                 <ChevronDown size={18} className="qa__chev" />
               </button>

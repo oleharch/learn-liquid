@@ -1,6 +1,5 @@
 # Liquid від А до Я
 
-
 > **English:** an interactive Liquid trainer for Shopify developers, in Ukrainian. 18 lessons with
 > auto-checked tasks, a 92-page reference (core Liquid + Shopify objects, tags and filters), a live
 > sandbox that runs [LiquidJS](https://liquidjs.com) in the browser with a Shopify emulation layer,

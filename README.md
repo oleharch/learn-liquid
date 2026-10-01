@@ -1,5 +1,12 @@
 # Liquid від А до Я
 
+**Live: [learn-liquid.vercel.app](https://learn-liquid.vercel.app)**
+
+> **English:** an interactive Liquid trainer for Shopify developers, in Ukrainian. 18 lessons with
+> auto-checked tasks, a 92-page reference (core Liquid + Shopify objects, tags and filters), a live
+> sandbox that runs [LiquidJS](https://liquidjs.com) in the browser with a Shopify emulation layer,
+> and 131 interview questions. Built with React 19, TypeScript, Vite and CodeMirror. MIT.
+
 Український тренажер мови шаблонів **Liquid** — від основ до Shopify-тем і
 питань технічної співбесіди. Усі приклади виконуються **наживо в браузері**:
 шаблон можна правити просто на сторінці й одразу бачити результат.
@@ -58,6 +65,8 @@ pnpm build
 рушій. Контент, який не пройшов, у збірку не йде.
 
 Як писати контент — `AUTHORING.md`. Архітектура, інваріанти рушія й пастки — `CLAUDE.md`.
+
+Ліцензія — MIT (`LICENSE`).
 
 ## Джерела
 

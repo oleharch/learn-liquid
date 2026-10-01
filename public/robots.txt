@@ -1,3 +1,2 @@
 User-agent: *
 Allow: /
-Sitemap: https://learn-liquid.vercel.app/sitemap.xml
